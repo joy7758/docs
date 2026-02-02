@@ -210,7 +210,7 @@ async def decrypt_json(ctx: EncryptionContext, data: dict) -> dict:
 **Performance consideration:** Per-key encryption means one encryption call per field. If your encryption involves round-trips to an external service (e.g., KMS), this can significantly impact latency. Consider caching data keys locally or using envelope encryption where you encrypt a local data key with KMS and use it for multiple fields.
 </Note>
 
-User-defined fields for access control queries (e.g., `tenant_id`, `owner`) should generally be left **unencrypted** for search and filtering. Additionally, **some system-managed fields will never be encrypted**:
+User-defined fields for authorization (e.g., `tenant_id`, `owner`) should generally be left **unencrypted**, as should fields used for search and filtering. Additionally, **some system-managed fields will never be encrypted**:
 
 - Resource identifiers (`thread_id`, `run_id`, `assistant_id`, `graph_id`, `checkpoint_id`, `task_id`)
 - Most fields beginning with `langgraph_` (except for `langgraph_auth_user`)
@@ -229,7 +229,7 @@ User-defined fields for access control queries (e.g., `tenant_id`, `owner`) shou
 - `cron.metadata`, `cron.payload`
 - `store.value`
 
-As noted above, some fields are excluded from encryption. Unless otherwise noted, these exclusions apply at every level of a nested JSON object, not just the root level.
+[Some fields are excluded from encryption.](#what-gets-encrypted) Unless otherwise noted, these exclusions apply at every level of a nested JSON object, not just the root level.
 
 **Blob handlers** (`@encryption.encrypt.blob` / `@encryption.decrypt.blob`) are applied to checkpoint blobs (graph execution state).
 
