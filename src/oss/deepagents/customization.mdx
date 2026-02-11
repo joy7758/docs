@@ -32,6 +32,7 @@ import SandboxBasicJs from '/snippets/deepagents-sandbox-basic-js.mdx';
 - [Human-in-the-loop](#human-in-the-loop)
 - [Skills](#skills)
 - [Memory](#memory)
+- [Build your own deep agent](#build-your-own-deep-agent)
 
 :::python
 ```python
@@ -1073,3 +1074,176 @@ console.log(result.structuredResponse);
 :::
 
 For more information and examples, see [response format](/oss/langchain/structured-output#response-format).
+
+## Build your own deep agent
+
+:::python
+`create_deep_agent` is an opinionated wrapper that assembles a specific [middleware](/oss/langchain/middleware/overview) stack and delegates to [`create_agent`](/oss/langchain/agents) from `langchain`.
+:::
+
+:::js
+`createDeepAgent` is an opinionated wrapper that assembles a specific [middleware](/oss/langchain/middleware/overview) stack and delegates to [`createAgent`](/oss/langchain/agents) from `langchain`.
+:::
+
+If you need full control over the agent's behavior -- for example, to change the middleware order, omit built-in middleware, or add custom logic between middleware layers -- you can build your own agent by composing the individual middleware and backends that `deepagents` exports.
+
+:::python
+For a closer look at how `create_deep_agent` assembles its middleware stack, see the [source implementation](https://github.com/langchain-ai/deepagents/blob/master/libs/deepagents/deepagents/graph.py).
+:::
+
+:::js
+For a closer look at how `createDeepAgent` assembles its middleware stack, see the [source implementation](https://github.com/langchain-ai/deepagentsjs/blob/main/libs/deepagents/src/agent.ts).
+:::
+
+:::python
+### Available building blocks
+
+**From `deepagents.middleware`:**
+
+| Middleware | Description |
+|---|---|
+| `FilesystemMiddleware` | File operations (`ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`) backed by any backend |
+| `SubAgentMiddleware` | Subagent spawning via a `task` tool |
+| `MemoryMiddleware` | Loads persistent context from `AGENTS.md` files |
+| `SkillsMiddleware` | Loads and exposes agent skills with progressive disclosure |
+| `SummarizationMiddleware` | Message history summarization with backend offloading |
+
+**From `deepagents.backends`:**
+
+| Backend | Description |
+|---|---|
+| `StateBackend` | Ephemeral storage in LangGraph state (default) |
+| `StoreBackend` | Persistent storage via LangGraph Store |
+| `FilesystemBackend` | Direct local filesystem access |
+| `CompositeBackend` | Routes operations to different backends by path prefix |
+
+**From `langchain`:**
+
+| Middleware | Description |
+|---|---|
+| `TodoListMiddleware` | Task tracking and management |
+| `HumanInTheLoopMiddleware` | Human approval for sensitive tool operations |
+| `AnthropicPromptCachingMiddleware` | Prompt caching for Anthropic models |
+| `PatchToolCallsMiddleware` | Cross-provider tool call compatibility |
+
+### Example
+
+```python
+from langchain.agents import create_agent
+from langchain.agents.middleware import TodoListMiddleware
+from langchain_anthropic import ChatAnthropic
+from langchain_anthropic.middleware import AnthropicPromptCachingMiddleware
+from deepagents.middleware import (
+    FilesystemMiddleware,
+    SubAgentMiddleware,
+    SummarizationMiddleware,
+)
+from deepagents.middleware.patch_tool_calls import PatchToolCallsMiddleware
+from deepagents.backends import StateBackend
+
+# 1. Choose a backend (or write your own implementing BackendProtocol)
+backend = lambda rt: StateBackend(rt)
+
+# 2. Configure your model
+model = ChatAnthropic(model_name="claude-sonnet-4-5-20250929", max_tokens=20000)
+
+# 3. Compose the middleware stack in the order you want
+middleware = [
+    TodoListMiddleware(),
+    FilesystemMiddleware(backend=backend),
+    SubAgentMiddleware(
+        backend=backend,
+        subagents=[],  # Add your subagent specs here
+    ),
+    SummarizationMiddleware(model=model, backend=backend),
+    AnthropicPromptCachingMiddleware(unsupported_model_behavior="ignore"),
+    PatchToolCallsMiddleware(),
+    # Add your own custom middleware here
+]
+
+# 4. Create the agent with create_agent from langchain
+agent = create_agent(
+    model,
+    system_prompt="Your custom system prompt.",
+    tools=[],  # Your custom tools
+    middleware=middleware,
+)
+```
+:::
+
+:::js
+### Available building blocks
+
+**From `"deepagents"`:**
+
+| Middleware | Description |
+|---|---|
+| `createFilesystemMiddleware` | File operations (`ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`) backed by any backend |
+| `createSubAgentMiddleware` | Subagent spawning via a `task` tool |
+| `createMemoryMiddleware` | Loads persistent context from `AGENTS.md` files |
+| `createSkillsMiddleware` | Loads and exposes agent skills with progressive disclosure |
+| `createPatchToolCallsMiddleware` | Cross-provider tool call compatibility |
+
+**Backends from `"deepagents"`:**
+
+| Backend | Description |
+|---|---|
+| `StateBackend` | Ephemeral storage in LangGraph state (default) |
+| `StoreBackend` | Persistent storage via LangGraph Store |
+| `FilesystemBackend` | Direct local filesystem access |
+| `CompositeBackend` | Routes operations to different backends by path prefix |
+
+**From `"langchain"`:**
+
+| Middleware | Description |
+|---|---|
+| `todoListMiddleware` | Task tracking and management |
+| `humanInTheLoopMiddleware` | Human approval for sensitive tool operations |
+| `anthropicPromptCachingMiddleware` | Prompt caching for Anthropic models |
+| `summarizationMiddleware` | Message history summarization |
+
+### Example
+
+```typescript
+import {
+  createAgent,
+  todoListMiddleware,
+  anthropicPromptCachingMiddleware,
+  summarizationMiddleware,
+} from "langchain";
+import {
+  createFilesystemMiddleware,
+  createSubAgentMiddleware,
+  createPatchToolCallsMiddleware,
+  StateBackend,
+} from "deepagents";
+
+// 1. Choose a backend (or write your own implementing BackendProtocol)
+const backend = (config: { state: unknown }) => new StateBackend(config);
+
+// 2. Compose the middleware stack in the order you want
+const middleware = [
+  todoListMiddleware(),
+  createFilesystemMiddleware({ backend }),
+  createSubAgentMiddleware({
+    defaultModel: "claude-sonnet-4-5-20250929",
+    backend,
+    subagents: [], // Add your subagent specs here
+  }),
+  summarizationMiddleware(),
+  anthropicPromptCachingMiddleware(),
+  createPatchToolCallsMiddleware(),
+  // Add your own custom middleware here
+];
+
+// 3. Create the agent with createAgent from langchain
+const agent = createAgent({
+  model: "claude-sonnet-4-5-20250929",
+  systemPrompt: "Your custom system prompt.",
+  tools: [], // Your custom tools
+  middleware,
+});
+```
+:::
+
+For more information about middleware, see [Middleware](/oss/langchain/middleware/overview).
