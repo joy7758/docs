@@ -42,6 +42,8 @@ from deepagents_acp.server import AgentServerACP
 
 async def main() -> None:
     agent = create_deep_agent(
+        # You can customize your Deep Agent here: set a custom prompt,
+        # add your own tools, attach middleware, or compose subagents.
         system_prompt="You are a helpful coding assistant",
         checkpointer=MemorySaver(),
     )
