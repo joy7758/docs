@@ -5,7 +5,7 @@ sidebarTitle: Prevent logging of sensitive data in traces
 
 When working with LangSmith traces, you may need to prevent sensitive information from being logged to maintain privacy and comply with security requirements. LangSmith provides multiple approaches to protect your data before it's sent to the backend:
 
-- [Completely hide inputs and outputs](#hide-inputs-and-outputs) using environment variables or [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) configuration.
+- [Completely hide inputs and outputs](#hide-inputs-and-outputs) using environment variables or [Client](https://reference.langchain.com/python/langsmith/client/Client) configuration.
 - [Hide metadata](#hide-metadata) to remove or transform run metadata.
 - [Apply rule-based masking](#rule-based-masking-of-inputs-and-outputs) with regex patterns or anonymization libraries to selectively redact sensitive information.
 - [Process inputs and outputs for individual functions](#processing-inputs-&-outputs-for-a-single-function) with function-level customization.
@@ -26,7 +26,7 @@ LANGSMITH_HIDE_OUTPUTS=true
 
 This works for both the LangSmith SDK (Python and TypeScript) and LangChain.
 
-You can also customize and override this behavior for a given [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) instance. This can be done by setting the `hide_inputs` and `hide_outputs` parameters on the [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) object (`hideInputs` and `hideOutputs` in TypeScript).
+You can also customize and override this behavior for a given [Client](https://reference.langchain.com/python/langsmith/client/Client) instance. This can be done by setting the `hide_inputs` and `hide_outputs` parameters on the [Client](https://reference.langchain.com/python/langsmith/client/Client) object (`hideInputs` and `hideOutputs` in TypeScript).
 
 The following example returns an empty object for both `hide_inputs` and `hide_outputs`, but you can customize this to your needs:
 
@@ -121,7 +121,7 @@ The `hide_metadata` parameter accepts three types of values:
 - `False` or `None`: Preserves metadata as-is (default behavior).
 - `Callable`: A custom function that transforms the metadata dictionary.
 
-When set, this parameter affects the `metadata` field in the `extra` parameter for all runs created or updated by the [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client), including runs created through the `@traceable` decorator or LangChain integrations.
+When set, this parameter affects the `metadata` field in the `extra` parameter for all runs created or updated by the [Client](https://reference.langchain.com/python/langsmith/client/Client), including runs created through the `@traceable` decorator or LangChain integrations.
 
 ### Hide all metadata
 
@@ -183,11 +183,11 @@ This feature is available in the following LangSmith SDK versions:
 * TypeScript: 0.1.33 and above
 </Info>
 
-To mask specific data in inputs and outputs, you can use the `create_anonymizer` / `createAnonymizer` function and pass the newly created anonymizer when instantiating the [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client). The anonymizer can be either constructed from a list of regex patterns and the replacement values or from a function that accepts and returns a string value.
+To mask specific data in inputs and outputs, you can use the `create_anonymizer` / `createAnonymizer` function and pass the newly created anonymizer when instantiating the [Client](https://reference.langchain.com/python/langsmith/client/Client). The anonymizer can be either constructed from a list of regex patterns and the replacement values or from a function that accepts and returns a string value.
 
 The anonymizer will be skipped for inputs if `LANGSMITH_HIDE_INPUTS = true`. Same applies for outputs if `LANGSMITH_HIDE_OUTPUTS = true`.
 
-However, if inputs or outputs are to be sent to [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client), the `anonymizer` method will take precedence over functions found in `hide_inputs` and `hide_outputs`. By default, the `create_anonymizer` will only look at maximum of 10 nesting levels deep, which can be configured via the `max_depth` parameter.
+However, if inputs or outputs are to be sent to [Client](https://reference.langchain.com/python/langsmith/client/Client), the `anonymizer` method will take precedence over functions found in `hide_inputs` and `hide_outputs`. By default, the `create_anonymizer` will only look at maximum of 10 nesting levels deep, which can be configured via the `max_depth` parameter.
 
 <CodeGroup>
 
@@ -352,7 +352,7 @@ await parent(inputs);
 The `process_outputs` parameter is available in LangSmith SDK version 0.1.98 and above for Python.
 </Info>
 
-In addition to [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client)-level input and output processing, LangSmith provides function-level processing through the `process_inputs` and `process_outputs` parameters of the `@traceable` decorator.
+In addition to [Client](https://reference.langchain.com/python/langsmith/client/Client)-level input and output processing, LangSmith provides function-level processing through the `process_inputs` and `process_outputs` parameters of the `@traceable` decorator.
 
 These parameters accept functions that allow you to transform the inputs and outputs of a specific function before they are logged to LangSmith. This is useful for reducing payload size, removing sensitive information, or customizing how an object should be serialized and represented in LangSmith for a particular function.
 
@@ -398,7 +398,7 @@ async def async_function(key: str) -> int:
     return len(key)
 ```
 
-These function-level processors take precedence over [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client)-level processors (`hide_inputs` and `hide_outputs`) when both are defined.
+These function-level processors take precedence over [Client](https://reference.langchain.com/python/langsmith/client/Client)-level processors (`hide_inputs` and `hide_outputs`) when both are defined.
 
 ## Examples
 
@@ -472,7 +472,7 @@ def recursive_anonymize(data, depth=10):
 
 openai_client = wrap_openai(openai.Client())
 
-# Initialize the LangSmith [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) with the anonymization functions
+# Initialize the LangSmith [Client](https://reference.langchain.com/python/langsmith/client/Client) with the anonymization functions
 langsmith_client = Client(
     hide_inputs=recursive_anonymize, hide_outputs=recursive_anonymize
 )
@@ -582,7 +582,7 @@ def presidio_anonymize(data):
 
 openai_client = wrap_openai(openai.Client())
 
-# initialize the langsmith [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) with the anonymization functions
+# initialize the langsmith [Client](https://reference.langchain.com/python/langsmith/client/Client) with the anonymization functions
 langsmith_client = Client(
   hide_inputs=presidio_anonymize, hide_outputs=presidio_anonymize
 )
@@ -724,7 +724,7 @@ def comprehend_anonymize(data):
 
 openai_client = wrap_openai(openai.Client())
 
-# initialize the langsmith [Client](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client) with the anonymization functions
+# initialize the langsmith [Client](https://reference.langchain.com/python/langsmith/client/Client) with the anonymization functions
 langsmith_client = Client(
   hide_inputs=comprehend_anonymize, hide_outputs=comprehend_anonymize
 )

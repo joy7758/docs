@@ -9,7 +9,7 @@ It is more general than a vector store.
 A retriever does not need to be able to store documents, only to return (or retrieve) them.
 Retrievers can be created from vector stores, but are also broad enough to include [Wikipedia search](/oss/python/integrations/retrievers/wikipedia/) and [Amazon Kendra](/oss/python/integrations/retrievers/amazon_kendra_retriever/).
 
-Retrievers accept a string query as input and return a list of [`Document`](https://reference.langchain.com/python/langchain_core/documents/#langchain_core.documents.base.Document) objects as output.
+Retrievers accept a string query as input and return a list of [`Document`](https://reference.langchain.com/python/langchain-core/documents/base/Document) objects as output.
 
 Note that all [vector stores](/oss/python/integrations/vectorstores) can be cast to retrievers. Refer to the vector store [integration docs](/oss/python/integrations/vectorstores/) for available vector stores.
 This page lists custom retrievers, implemented via subclassing BaseRetriever.

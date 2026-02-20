@@ -183,7 +183,7 @@ def should_continue(state: MessagesState) -> Literal["tool_node", END]:
 
 ## 6. Build and compile the agent
 
-The agent is built using the [`StateGraph`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph) class and compiled using the [`compile`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph.compile) method.
+The agent is built using the [`StateGraph`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph) class and compiled using the [`compile`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile) method.
 
 ```python
 # Build workflow
@@ -461,7 +461,7 @@ from langgraph.func import entrypoint, task
 The model node is used to call the LLM and decide whether to call a tool or not.
 
 <Tip>
-    The [`@task`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.task) decorator marks a function as a task that can be executed as part of the agent. Tasks can be called synchronously or asynchronously within your entrypoint function.
+    The [`@task`](https://reference.langchain.com/python/langgraph/func/task) decorator marks a function as a task that can be executed as part of the agent. Tasks can be called synchronously or asynchronously within your entrypoint function.
 </Tip>
 
 ```python
@@ -499,7 +499,7 @@ def call_tool(tool_call: ToolCall):
 
 ## 4. Define agent
 
-The agent is built using the [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.entrypoint) function.
+The agent is built using the [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/entrypoint) function.
 
 <Note>
     In the Functional API, instead of defining nodes and edges explicitly, you write standard control flow logic (loops, conditionals) within a single function.

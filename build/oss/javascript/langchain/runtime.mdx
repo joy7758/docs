@@ -7,10 +7,10 @@ title: Runtime
 
 LangChain's `createAgent` runs on LangGraph's runtime under the hood.
 
-LangGraph exposes a [`Runtime`](https://reference.langchain.com/javascript/interfaces/_langchain_langgraph.index.Runtime.html) object with the following information:
+LangGraph exposes a [`Runtime`](https://reference.langchain.com/javascript/langchain/index/Runtime) object with the following information:
 
 1. **Context**: static information like user id, db connections, or other dependencies for an agent invocation
-2. **Store**: a [BaseStore](https://reference.langchain.com/javascript/classes/_langchain_langgraph-checkpoint.BaseStore.html) instance used for [long-term memory](/oss/javascript/langchain/long-term-memory)
+2. **Store**: a [BaseStore](https://reference.langchain.com/javascript/langchain-core/stores/BaseStore) instance used for [long-term memory](/oss/javascript/langchain/long-term-memory)
 3. **Stream writer**: an object used for streaming information via the `"custom"` stream mode
 
 
@@ -25,7 +25,7 @@ You can access the runtime information within [tools](#inside-tools) and [middle
 ## Access
 
 
-When creating an agent with `createAgent`, you can specify a `contextSchema` to define the structure of the `context` stored in the agent [`Runtime`](https://reference.langchain.com/javascript/interfaces/_langchain_langgraph.index.Runtime.html).
+When creating an agent with `createAgent`, you can specify a `contextSchema` to define the structure of the `context` stored in the agent [`Runtime`](https://reference.langchain.com/javascript/langchain/index/Runtime).
 
 
 When invoking the agent, pass the `context` argument with the relevant configuration for the run:
@@ -63,7 +63,7 @@ You can access the runtime information inside tools to:
 * Write to the [custom stream](/oss/javascript/langchain/streaming#custom-updates) (ex, tool progress / updates)
 
 
-Use the `runtime` parameter to access the [`Runtime`](https://reference.langchain.com/javascript/interfaces/_langchain_langgraph.index.Runtime.html) object inside a tool.
+Use the `runtime` parameter to access the [`Runtime`](https://reference.langchain.com/javascript/langchain/index/Runtime) object inside a tool.
 
 ```ts
 import * as z from "zod";
@@ -104,7 +104,7 @@ const fetchUserEmailPreferences = tool(
 You can access runtime information in middleware to create dynamic prompts, modify messages, or control agent behavior based on user context.
 
 
-Use the `runtime` parameter to access the [`Runtime`](https://reference.langchain.com/javascript/interfaces/_langchain_langgraph.index.Runtime.html) object inside middleware.
+Use the `runtime` parameter to access the [`Runtime`](https://reference.langchain.com/javascript/langchain/index/Runtime) object inside middleware.
 
 ```ts
 import * as z from "zod";

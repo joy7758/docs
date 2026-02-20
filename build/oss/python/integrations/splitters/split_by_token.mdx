@@ -16,7 +16,7 @@ We can use `tiktoken` to estimate tokens used. It will probably be more accurate
 1. How the text is split: by character passed in.
 2. How the chunk size is measured: by `tiktoken` tokenizer.
 
-[CharacterTextSplitter](https://reference.langchain.com/python/langchain_text_splitters/#langchain_text_splitters.CharacterTextSplitter), [RecursiveCharacterTextSplitter](https://reference.langchain.com/python/langchain_text_splitters/#langchain_text_splitters.RecursiveCharacterTextSplitter), and [TokenTextSplitter](https://reference.langchain.com/python/langchain_text_splitters/#langchain_text_splitters.TokenTextSplitter) can be used with `tiktoken` directly.
+[CharacterTextSplitter](https://reference.langchain.com/python/langchain-text-splitters/character/CharacterTextSplitter), [RecursiveCharacterTextSplitter](https://reference.langchain.com/python/langchain-text-splitters/character/RecursiveCharacterTextSplitter), and [TokenTextSplitter](https://reference.langchain.com/python/langchain-text-splitters/base/TokenTextSplitter) can be used with `tiktoken` directly.
 
 
 ```python
@@ -32,7 +32,7 @@ with open("state_of_the_union.txt") as f:
     state_of_the_union = f.read()
 ```
 
-To split with a [CharacterTextSplitter](https://reference.langchain.com/python/langchain_text_splitters/#langchain_text_splitters.CharacterTextSplitter) and then merge chunks with `tiktoken`, use its `.from_tiktoken_encoder()` method. Note that splits from this method can be larger than the chunk size measured by the `tiktoken` tokenizer.
+To split with a [CharacterTextSplitter](https://reference.langchain.com/python/langchain-text-splitters/character/CharacterTextSplitter) and then merge chunks with `tiktoken`, use its `.from_tiktoken_encoder()` method. Note that splits from this method can be larger than the chunk size measured by the `tiktoken` tokenizer.
 
 The `.from_tiktoken_encoder()` method takes either `encoding_name` as an argument (e.g. `cl100k_base`), or the `model_name` (e.g. `gpt-4`). All additional arguments like `chunk_size`, `chunk_overlap`, and `separators` are used to instantiate `CharacterTextSplitter`:
 

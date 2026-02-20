@@ -82,7 +82,7 @@ graph.invoke({"foo": "", "bar":[]}, config)
 
 After we run the graph, we expect to see exactly 4 checkpoints:
 
-* Empty checkpoint with [`START`](https://reference.langchain.com/python/langgraph/constants/#langgraph.constants.START) as the next node to be executed
+* Empty checkpoint with [`START`](https://reference.langchain.com/python/langgraph/constants/START) as the next node to be executed
 * Checkpoint with the user input `{'foo': '', 'bar': []}` and `node_a` as the next node to be executed
 * Checkpoint with the outputs of `node_a` `{'foo': 'a', 'bar': ['a']}` and `node_b` as the next node to be executed
 * Checkpoint with the outputs of `node_b` `{'foo': 'b', 'bar': ['a', 'b']}` and no next nodes to be executed
@@ -290,7 +290,7 @@ When using the LangGraph API, you don't need to implement or configure stores ma
 </Info>
 
 <Note>
-[InMemoryStore](https://reference.langchain.com/python/langgraph/store/#langgraph.store.memory.InMemoryStore) is suitable for development and testing. For production, use a persistent store like `PostgresStore` or `RedisStore`. All implementations extend [BaseStore](https://reference.langchain.com/python/langgraph/store/#langgraph.store.base.BaseStore), which is the type annotation to use in node function signatures.
+[InMemoryStore](https://reference.langchain.com/python/langchain-core/stores/InMemoryStore) is suitable for development and testing. For production, use a persistent store like `PostgresStore` or `RedisStore`. All implementations extend [BaseStore](https://reference.langchain.com/python/langchain-core/stores/BaseStore), which is the type annotation to use in node function signatures.
 </Note>
 
 ### Basic usage

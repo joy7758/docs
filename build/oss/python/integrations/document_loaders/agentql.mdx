@@ -100,7 +100,7 @@ print(docs[0].metadata)
 
 ## Lazy load
 
-`AgentQLLoader` currently only loads one [`Document`](https://reference.langchain.com/python/langchain_core/documents/#langchain_core.documents.base.Document) at a time. Therefore, `load()` and `lazy_load()` behave the same:
+`AgentQLLoader` currently only loads one [`Document`](https://reference.langchain.com/python/langchain-core/documents/base/Document) at a time. Therefore, `load()` and `lazy_load()` behave the same:
 
 ```python
 pages = [doc for doc in loader.lazy_load()]

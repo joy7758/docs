@@ -20,7 +20,7 @@ Requires `langsmith>=0.2.0`
 An LLM-as-a-judge evaluator consists of three key components:
 
 1. **Evaluator function**: A function that receives the example inputs and application outputs, then uses an LLM to score the quality. The function should return a boolean, number, string, or dictionary with score information.
-1. **Target function**: Your application logic being evaluated (wrapped with [`@traceable`](https://reference.langchain.com/python/langsmith/observability/sdk/run_helpers/#langsmith.run_helpers.traceable) for observability).
+1. **Target function**: Your application logic being evaluated (wrapped with [`@traceable`](https://reference.langchain.com/python/langsmith/run_helpers/traceable) for observability).
 1. **Dataset and evaluation**: A dataset of test examples and the `evaluate()` function that runs your target function on each example and applies your evaluators.
 
 ### Example

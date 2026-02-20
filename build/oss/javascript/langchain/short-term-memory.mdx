@@ -139,7 +139,7 @@ One way to decide when to truncate messages is to count the tokens in the messag
 
 
 
-To trim message history in an agent, use [`createMiddleware`](https://reference.langchain.com/javascript/functions/langchain.index.createMiddleware.html) with a `beforeModel` hook:
+To trim message history in an agent, use [`createMiddleware`](https://reference.langchain.com/javascript/langchain/index/createMiddleware) with a `beforeModel` hook:
 
 ```typescript
 import { RemoveMessage } from "@langchain/core/messages";
@@ -187,7 +187,7 @@ This is useful when you want to remove specific messages or clear the entire mes
 
 
 
-To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with [`messagesStateReducer`](https://reference.langchain.com/javascript/functions/_langchain_langgraph.index.messagesStateReducer.html) [reducer](/oss/javascript/langgraph/graph-api#reducers), like `MessagesValue`.
+To delete messages from the graph state, you can use the `RemoveMessage`. For `RemoveMessage` to work, you need to use a state key with [`messagesStateReducer`](https://reference.langchain.com/javascript/langchain-langgraph/index/messagesStateReducer) [reducer](/oss/javascript/langgraph/graph-api#reducers), like `MessagesValue`.
 
 To remove specific messages:
 

@@ -20,7 +20,7 @@ For information on the latest models, model IDs, their features, context windows
 <Tip>
     **API Reference**
 
-    For detailed documentation of all features and configuration options, head to the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/integrations/langchain_google_genai/#langchain_google_genai.ChatGoogleGenerativeAI) API reference.
+    For detailed documentation of all features and configuration options, head to the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/langchain-google-genai/chat_models/ChatGoogleGenerativeAI) API reference.
 </Tip>
 
 ## Overview
@@ -29,7 +29,7 @@ For information on the latest models, model IDs, their features, context windows
 
 | Class | Package | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/google_generative_ai) | Downloads | Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
-| [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/integrations/langchain_google_genai/#langchain_google_genai.ChatGoogleGenerativeAI) | [`langchain-google-genai`](https://reference.langchain.com/python/integrations/langchain_google_genai) | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-google-genai?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-google-genai?style=flat-square&label=%20) |
+| [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/langchain-google-genai/chat_models/ChatGoogleGenerativeAI) | [`langchain-google-genai`](https://reference.langchain.com/python/langchain-google-genai/) | beta | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-google-genai?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-google-genai?style=flat-square&label=%20) |
 
 ### Model features
 
@@ -206,7 +206,7 @@ Now we can instantiate our model object and generate responses:
     If `temperature` is not explicitly set and the model is Gemini 3.0 or later, it will be automatically set to `1.0` instead of the default `0.7` per Google GenAI API best practices. Using `0.7` with Gemini 3.0+ can cause infinite loops, degraded reasoning performance, and failure on complex tasks.
 </Note>
 
-See the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/integrations/langchain_google_genai/#langchain_google_genai.ChatGoogleGenerativeAI) API Reference for the full set of available model parameters.
+See the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/langchain-google-genai/chat_models/ChatGoogleGenerativeAI) API Reference for the full set of available model parameters.
 
 ### Proxy configuration
 
@@ -315,7 +315,7 @@ Once uploaded, you can reference the file in any of the media-specific sections 
 
 ### Image input
 
-Provide image inputs along with text using a [`HumanMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.HumanMessage) with a list content format.
+Provide image inputs along with text using a [`HumanMessage`](https://reference.langchain.com/python/langchain-core/messages/human/HumanMessage) with a list content format.
 
 <CodeGroup>
     ```python Image URL
@@ -1399,7 +1399,7 @@ response.response_metadata
 
 ## API reference
 
-For detailed documentation of all features and configuration options, head to the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/integrations/langchain_google_genai/#langchain_google_genai.ChatGoogleGenerativeAI) API reference.
+For detailed documentation of all features and configuration options, head to the [`ChatGoogleGenerativeAI`](https://reference.langchain.com/python/langchain-google-genai/chat_models/ChatGoogleGenerativeAI) API reference.
 
 ---
 

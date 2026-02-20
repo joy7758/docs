@@ -466,11 +466,11 @@ For advanced use cases, use the `experimental_branchTree` property to get the tr
 
 ## Type-safe streaming
 
-The `useStream` hook supports full type inference when used with agents created via [`createAgent`](https://reference.langchain.com/javascript/functions/langchain.index.createAgent.html) or graphs created with [`StateGraph`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.StateGraph.html). Pass `typeof agent` or `typeof graph` as the type parameter to automatically infer tool call types.
+The `useStream` hook supports full type inference when used with agents created via [`createAgent`](https://reference.langchain.com/javascript/langchain/index/createAgent) or graphs created with [`StateGraph`](https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph). Pass `typeof agent` or `typeof graph` as the type parameter to automatically infer tool call types.
 
 ### With `createAgent`
 
-When using [`createAgent`](https://reference.langchain.com/javascript/functions/langchain.index.createAgent.html), tool call types are automatically inferred from the tools you register to your agent:
+When using [`createAgent`](https://reference.langchain.com/javascript/langchain/index/createAgent), tool call types are automatically inferred from the tools you register to your agent:
 
 
 
@@ -518,7 +518,7 @@ function Chat() {
 
 ### With `StateGraph`
 
-For custom [`StateGraph`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.StateGraph.html) applications, the state types are inferred from the graph's annotation:
+For custom [`StateGraph`](https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph) applications, the state types are inferred from the graph's annotation:
 
 
 

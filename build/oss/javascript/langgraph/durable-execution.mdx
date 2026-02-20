@@ -20,7 +20,7 @@ To leverage durable execution in LangGraph, you need to:
 1. Enable [persistence](/oss/javascript/langgraph/persistence) in your workflow by specifying a [checkpointer](/oss/javascript/langgraph/persistence#checkpointer-libraries) that will save workflow progress.
 2. Specify a [thread identifier](/oss/javascript/langgraph/persistence#threads) when executing a workflow. This will track the execution history for a particular instance of the workflow.
 
-1. Wrap any non-deterministic operations (e.g., random number generation) or operations with side effects (e.g., file writes, API calls) inside [tasks](https://reference.langchain.com/javascript/functions/_langchain_langgraph.index.task.html) to ensure that when a workflow is resumed, these operations are not repeated for the particular run, and instead their results are retrieved from the persistence layer. For more information, see [Determinism and Consistent Replay](#determinism-and-consistent-replay).
+1. Wrap any non-deterministic operations (e.g., random number generation) or operations with side effects (e.g., file writes, API calls) inside [tasks](https://reference.langchain.com/javascript/langchain-langgraph/index/task) to ensure that when a workflow is resumed, these operations are not repeated for the particular run, and instead their results are retrieved from the persistence layer. For more information, see [Determinism and Consistent Replay](#determinism-and-consistent-replay).
 
 ## Determinism and consistent replay
 
@@ -35,7 +35,7 @@ To ensure that your workflow is deterministic and can be consistently replayed, 
 * **Use Idempotent Operations**: When possible ensure that side effects (e.g., API calls, file writes) are idempotent. This means that if an operation is retried after a failure in the workflow, it will have the same effect as the first time it was executed. This is particularly important for operations that result in data writes. In the event that a **task** starts but fails to complete successfully, the workflow's resumption will re-run the **task**, relying on recorded outcomes to maintain consistency. Use idempotency keys or verify existing results to avoid unintended duplication, ensuring a smooth and predictable workflow execution.
 
 For some examples of pitfalls to avoid, see the [Common Pitfalls](/oss/javascript/langgraph/functional-api#common-pitfalls) section in the functional API, which shows
-how to structure your code using **tasks** to avoid these issues. The same principles apply to the [StateGraph (Graph API)](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.StateGraph.html).
+how to structure your code using **tasks** to avoid these issues. The same principles apply to the [StateGraph (Graph API)](https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph).
 
 ## Durability modes
 
@@ -160,7 +160,7 @@ Once you have enabled durable execution in your workflow, you can resume executi
 
 
 
-* **Pausing and Resuming Workflows:** Use the [interrupt](https://reference.langchain.com/javascript/functions/_langchain_langgraph.index.interrupt.html) function to pause a workflow at specific points and the [`Command`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.Command.html) primitive to resume it with updated state. See [**Interrupts**](/oss/javascript/langgraph/interrupts) for more details.
+* **Pausing and Resuming Workflows:** Use the [interrupt](https://reference.langchain.com/javascript/langchain-langgraph/index/interrupt) function to pause a workflow at specific points and the [`Command`](https://reference.langchain.com/javascript/langchain-langgraph/index/Command) primitive to resume it with updated state. See [**Interrupts**](/oss/javascript/langgraph/interrupts) for more details.
 * **Recovering from Failures:** Automatically resume workflows from the last successful checkpoint after an exception (e.g., LLM provider outage). This involves executing the workflow with the same thread identifier by providing it with a `null` as the input value (see this [example](/oss/javascript/langgraph/use-functional-api#resuming-after-an-error) with the functional API).
 
 

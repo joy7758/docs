@@ -240,7 +240,7 @@ When the parent graph and subgraph can communicate over a shared state key (chan
 If your subgraph shares state keys with the parent graph, you can follow these steps to add it to your graph:
 
 1. Define the subgraph workflow (`subgraph_builder` in the example below) and compile it
-2. Pass compiled subgraph to the [`add_node`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph.add_node) method when defining the parent graph workflow
+2. Pass compiled subgraph to the [`add_node`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph/add_node) method when defining the parent graph workflow
 
 ```python
 from typing_extensions import TypedDict

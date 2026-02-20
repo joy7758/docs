@@ -24,7 +24,7 @@ This is useful for critiquing specific steps of the LLM application, such as the
 
 <Tip>
 **Non-blocking creation (Python only)**
-The Python client will automatically background feedback creation if you pass `trace_id=` to [`create_feedback()`](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client.create_feedback).
+The Python client will automatically background feedback creation if you pass `trace_id=` to [`create_feedback()`](https://reference.langchain.com/python/langsmith/client/Client/create_feedback).
 This is essential for low-latency environments, where you want to make sure your application isn't blocked on feedback creation.
 </Tip>
 
@@ -90,7 +90,7 @@ await client.createFeedback(
 
 </CodeGroup>
 
-You can even log feedback for in-progress runs using [`create_feedback()`](https://reference.langchain.com/python/langsmith/observability/sdk/client/#langsmith.client.Client.create_feedback) / [`createFeedback`](https://reference.langchain.com/javascript/classes/langsmith.client.Client.html#createfeedback). See [this guide](/langsmith/access-current-span) for how to get the run ID of an in-progress run.
+You can even log feedback for in-progress runs using [`create_feedback()`](https://reference.langchain.com/python/langsmith/client/Client/create_feedback) / [`createFeedback`](https://reference.langchain.com/javascript/classes/langsmith.client.Client.html#createfeedback). See [this guide](/langsmith/access-current-span) for how to get the run ID of an in-progress run.
 
 To learn more about how to filter traces based on various attributes, including user feedback, see [this guide](/langsmith/filter-traces-in-application).
 

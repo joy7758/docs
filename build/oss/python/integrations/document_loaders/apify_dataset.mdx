@@ -50,7 +50,7 @@ Many Actors support [Pay-Per-Event (PPE) pricing](https://docs.apify.com/platfor
 
 ## Map dataset items to documents
 
-Next, define a function that maps Apify dataset record fields to LangChain [`Document`](https://reference.langchain.com/python/langchain_core/documents/#langchain_core.documents.base.Document) format.
+Next, define a function that maps Apify dataset record fields to LangChain [`Document`](https://reference.langchain.com/python/langchain-core/documents/base/Document) format.
 
 For example, if your dataset items are structured like this:
 
@@ -61,7 +61,7 @@ For example, if your dataset items are structured like this:
 }
 ```
 
-The mapping function in the code below will convert them to LangChain [`Document`](https://reference.langchain.com/python/langchain_core/documents/#langchain_core.documents.base.Document) format, so that you can use them further with any LLM model (e.g. for question answering).
+The mapping function in the code below will convert them to LangChain [`Document`](https://reference.langchain.com/python/langchain-core/documents/base/Document) format, so that you can use them further with any LLM model (e.g. for question answering).
 
 ```python
 loader = ApifyDatasetLoader(

@@ -39,7 +39,7 @@ Automatically summarize conversation history when approaching token limits, pres
 - Multi-turn dialogues with extensive history.
 - Applications where preserving full conversation context matters.
 
-**API reference:** [`SummarizationMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.SummarizationMiddleware)
+**API reference:** [`SummarizationMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/summarization/SummarizationMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -78,14 +78,14 @@ agent = create_agent(
 </Tip>
 
 <ParamField body="model" type="string | BaseChatModel" required>
-    Model for generating summaries. Can be a model identifier string (e.g., `'openai:gpt-4.1-mini'`) or a `BaseChatModel` instance. See [`init_chat_model`](https://reference.langchain.com/python/langchain/models/#langchain.chat_models.init_chat_model(model)) for more information.
+    Model for generating summaries. Can be a model identifier string (e.g., `'openai:gpt-4.1-mini'`) or a `BaseChatModel` instance. See [`init_chat_model`](https://reference.langchain.com/python/langchain/chat_models/base/init_chat_model) for more information.
 </ParamField>
 
 <ParamField body="trigger" type="ContextSize | list[ContextSize] | None">
     Condition(s) for triggering summarization. Can be:
 
-    - A single [`ContextSize`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.summarization.ContextSize) tuple (specified condition must be met)
-    - A list of [`ContextSize`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.summarization.ContextSize) tuples (any condition must be met - OR logic)
+    - A single [`ContextSize`](https://reference.langchain.com/python/langchain/agents/middleware/summarization/ContextSize) tuple (specified condition must be met)
+    - A list of [`ContextSize`](https://reference.langchain.com/python/langchain/agents/middleware/summarization/ContextSize) tuples (any condition must be met - OR logic)
 
     Condition should be one of the following:
 
@@ -95,7 +95,7 @@ agent = create_agent(
 
     At least one condition must be specified. If not provided, summarization will not trigger automatically.
 
-    See the API reference for [`ContextSize`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.summarization.ContextSize) for more information.
+    See the API reference for [`ContextSize`](https://reference.langchain.com/python/langchain/agents/middleware/summarization/ContextSize) for more information.
 </ParamField>
 
 <ParamField body="keep" type="ContextSize" default="('messages', 20)">
@@ -105,7 +105,7 @@ agent = create_agent(
     - `tokens` (int): Absolute token count to keep
     - `messages` (int): Number of recent messages to keep
 
-    See the API reference for [`ContextSize`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.summarization.ContextSize) for more information.
+    See the API reference for [`ContextSize`](https://reference.langchain.com/python/langchain/agents/middleware/summarization/ContextSize) for more information.
 </ParamField>
 
 <ParamField body="token_counter" type="function">
@@ -212,7 +212,7 @@ Pause agent execution for human approval, editing, or rejection of tool calls be
 - Compliance workflows where human oversight is mandatory.
 - Long-running conversations where human feedback guides the agent.
 
-**API reference:** [`HumanInTheLoopMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.HumanInTheLoopMiddleware)
+**API reference:** [`HumanInTheLoopMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/human_in_the_loop/HumanInTheLoopMiddleware)
 
 
 <Warning>
@@ -272,7 +272,7 @@ Limit the number of model calls to prevent infinite loops or excessive costs. Mo
 - Enforcing cost controls on production deployments.
 - Testing agent behavior within specific call budgets.
 
-**API reference:** [`ModelCallLimitMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ModelCallLimitMiddleware)
+**API reference:** [`ModelCallLimitMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/model_call_limit/ModelCallLimitMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -332,7 +332,7 @@ Control agent execution by limiting the number of tool calls, either globally ac
 - Enforcing rate limits on specific tool usage.
 - Protecting against runaway agent loops.
 
-**API reference:** [`ToolCallLimitMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ToolCallLimitMiddleware)
+**API reference:** [`ToolCallLimitMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/tool_call_limit/ToolCallLimitMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -435,7 +435,7 @@ Automatically fallback to alternative models when the primary model fails. Model
 - Cost optimization by falling back to cheaper models.
 - Provider redundancy across OpenAI, Anthropic, etc.
 
-**API reference:** [`ModelFallbackMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ModelFallbackMiddleware)
+**API reference:** [`ModelFallbackMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/model_fallback/ModelFallbackMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -484,7 +484,7 @@ Detect and handle Personally Identifiable Information (PII) in conversations usi
 - Customer service agents that need to sanitize logs.
 - Any application handling sensitive user data.
 
-**API reference:** [`PIIMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.PIIMiddleware)
+**API reference:** [`PIIMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/pii/PIIMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -653,7 +653,7 @@ Equip agents with task planning and tracking capabilities for complex multi-step
     This middleware automatically provides agents with a `write_todos` tool and system prompts to guide effective task planning.
 </Note>
 
-**API reference:** [`TodoListMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.TodoListMiddleware)
+**API reference:** [`TodoListMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/todo/TodoListMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -701,7 +701,7 @@ Use an LLM to intelligently select relevant tools before calling the main model.
 
 This middleware uses structured output to ask an LLM which tools are most relevant for the current query. The structured output schema defines the available tool names and descriptions. Model providers often add this structured output information to the system prompt behind the scenes.
 
-**API reference:** [`LLMToolSelectorMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.LLMToolSelectorMiddleware)
+**API reference:** [`LLMToolSelectorMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/tool_selection/LLMToolSelectorMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -726,7 +726,7 @@ agent = create_agent(
 <Accordion title="Configuration options">
 
 <ParamField body="model" type="string | BaseChatModel">
-    Model for tool selection. Can be a model identifier string (e.g., `'openai:gpt-4.1-mini'`) or a `BaseChatModel` instance. See [`init_chat_model`](https://reference.langchain.com/python/langchain/models/#langchain.chat_models.init_chat_model(model)) for more information.
+    Model for tool selection. Can be a model identifier string (e.g., `'openai:gpt-4.1-mini'`) or a `BaseChatModel` instance. See [`init_chat_model`](https://reference.langchain.com/python/langchain/chat_models/base/init_chat_model) for more information.
 
     Defaults to the agent's main model.
 </ParamField>
@@ -757,7 +757,7 @@ Automatically retry failed tool calls with configurable exponential backoff. Too
 - Improving reliability of network-dependent tools.
 - Building resilient agents that gracefully handle temporary errors.
 
-**API reference:** [`ToolRetryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ToolRetryMiddleware)
+**API reference:** [`ToolRetryMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/tool_retry/ToolRetryMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -875,7 +875,7 @@ Automatically retry failed model calls with configurable exponential backoff. Mo
 - Improving reliability of network-dependent model requests.
 - Building resilient agents that gracefully handle temporary model errors.
 
-**API reference:** [`ModelRetryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ModelRetryMiddleware)
+**API reference:** [`ModelRetryMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/model_retry/ModelRetryMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -1024,7 +1024,7 @@ Emulate tool execution using an LLM for testing purposes, replacing actual tool 
 - Developing agents when external tools are unavailable or expensive.
 - Prototyping agent workflows before implementing actual tools.
 
-**API reference:** [`LLMToolEmulator`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.LLMToolEmulator)
+**API reference:** [`LLMToolEmulator`](https://reference.langchain.com/python/langchain/agents/middleware/tool_emulator/LLMToolEmulator)
 
 ```python
 from langchain.agents import create_agent
@@ -1049,7 +1049,7 @@ agent = create_agent(
 </ParamField>
 
 <ParamField body="model" type="string | BaseChatModel">
-    Model to use for generating emulated tool responses. Can be a model identifier string (e.g., `'anthropic:claude-sonnet-4-5-20250929'`) or a `BaseChatModel` instance. Defaults to the agent's model if not specified. See [`init_chat_model`](https://reference.langchain.com/python/langchain/models/#langchain.chat_models.init_chat_model(model)) for more information.
+    Model to use for generating emulated tool responses. Can be a model identifier string (e.g., `'anthropic:claude-sonnet-4-5-20250929'`) or a `BaseChatModel` instance. Defaults to the agent's model if not specified. See [`init_chat_model`](https://reference.langchain.com/python/langchain/chat_models/base/init_chat_model) for more information.
 </ParamField>
 
 
@@ -1113,7 +1113,7 @@ Manage conversation context by clearing older tool call outputs when token limit
 - Reducing token costs by removing older tool outputs that are no longer relevant
 - Maintaining only the most recent N tool results in context
 
-**API reference:** [`ContextEditingMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ContextEditingMiddleware), [`ClearToolUsesEdit`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ClearToolUsesEdit)
+**API reference:** [`ContextEditingMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/context_editing/ContextEditingMiddleware), [`ClearToolUsesEdit`](https://reference.langchain.com/python/langchain/agents/middleware/context_editing/ClearToolUsesEdit)
 
 ```python
 from langchain.agents import create_agent
@@ -1141,14 +1141,14 @@ agent = create_agent(
 <Accordion title="Configuration options">
 
 <ParamField body="edits" type="list[ContextEdit]" default="[ClearToolUsesEdit()]">
-    List of [`ContextEdit`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ContextEdit) strategies to apply
+    List of [`ContextEdit`](https://reference.langchain.com/python/langchain/agents/middleware/context_editing/ContextEdit) strategies to apply
 </ParamField>
 
 <ParamField body="token_count_method" type="string" default="approximate">
     Token counting method. Options: `'approximate'` or `'model'`
 </ParamField>
 
-**[`ClearToolUsesEdit`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ClearToolUsesEdit) options:**
+**[`ClearToolUsesEdit`](https://reference.langchain.com/python/langchain/agents/middleware/context_editing/ClearToolUsesEdit) options:**
 
 <ParamField body="trigger" type="number" default="100000">
     Token count that triggers the edit. When the conversation exceeds this token count, older tool outputs will be cleared.
@@ -1235,7 +1235,7 @@ Expose a persistent shell session to agents for command execution. Shell tool mi
     **Limitation**: Persistent shell sessions do not currently work with interrupts (human-in-the-loop). We anticipate adding support for this in the future.
 </Note>
 
-**API reference:** [`ShellToolMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ShellToolMiddleware)
+**API reference:** [`ShellToolMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/shell_tool/ShellToolMiddleware)
 
 ```python
 from langchain.agents import create_agent
@@ -1372,7 +1372,7 @@ Provide Glob and Grep search tools over a filesystem. File search middleware is 
 - Searching code content with regex
 - Large codebases where file discovery is needed
 
-**API reference:** [`FilesystemFileSearchMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.FilesystemFileSearchMiddleware)
+**API reference:** [`FilesystemFileSearchMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/file_search/FilesystemFileSearchMiddleware)
 
 ```python
 from langchain.agents import create_agent

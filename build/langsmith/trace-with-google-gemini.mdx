@@ -40,7 +40,7 @@ To create a Google API key, refer to [Google AI Studio](https://aistudio.google.
 
 ## Configure tracing
 
-To trace Gemini API calls, use LangSmith's [`wrap_gemini`](https://reference.langchain.com/python/langsmith/observability/sdk/wrappers/#langsmith.wrappers.wrap_gemini) (Python) or [`wrapGemini`](https://reference.langchain.com/javascript/functions/langsmith.wrappers_gemini.wrapGemini.html) (JavaScript) wrapper function. This wrapper intercepts calls to the Gemini client and automatically logs them as traces in LangSmith. The wrapper preserves all of the original client's functionality while adding observability:
+To trace Gemini API calls, use LangSmith's [`wrap_gemini`](https://reference.langchain.com/python/langsmith/wrappers/_gemini/wrap_gemini) (Python) or [`wrapGemini`](https://reference.langchain.com/javascript/functions/langsmith.wrappers_gemini.wrapGemini.html) (JavaScript) wrapper function. This wrapper intercepts calls to the Gemini client and automatically logs them as traces in LangSmith. The wrapper preserves all of the original client's functionality while adding observability:
 
 <CodeGroup>
 
@@ -108,7 +108,7 @@ console.log(response.text);
 <Tabs>
 <Tab title="Python" icon="brand-python">
 
-You can customize tracing by passing [`tracing_extra`](https://reference.langchain.com/python/langsmith/observability/sdk/wrappers/#langsmith.wrappers.wrap_gemini) when calling `wrap_gemini()`. This parameter applies to all subsequent requests you make with that wrapped client, which allows you to attach tags and metadata for filtering and organizing traces in the [LangSmith UI](https://smith.langchain.com). The `tracing_extra` parameter accepts:
+You can customize tracing by passing [`tracing_extra`](https://reference.langchain.com/python/langsmith/wrappers/_gemini/wrap_gemini) when calling `wrap_gemini()`. This parameter applies to all subsequent requests you make with that wrapped client, which allows you to attach tags and metadata for filtering and organizing traces in the [LangSmith UI](https://smith.langchain.com). The `tracing_extra` parameter accepts:
 
 - `tags`: A list of strings to categorize traces (for example, `["production", "gemini"]`).
 - `metadata`: A dictionary of key-value pairs for additional context (for example, `{"team": "ml-research", "integration": "google-genai"}`).

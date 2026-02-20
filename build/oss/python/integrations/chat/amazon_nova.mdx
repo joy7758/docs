@@ -12,7 +12,7 @@ You can find information about Amazon Nova's models, their features, and API det
 <Tip>
     **API Reference**
 
-    For detailed documentation of all [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) features and configuration options, head to the [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) API reference.
+    For detailed documentation of all [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) features and configuration options, head to the [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) API reference.
 
     For Amazon Nova model details and capabilities, see the [Amazon Nova documentation](https://nova.amazon.com/dev/documentation).
 </Tip>
@@ -23,7 +23,7 @@ You can find information about Amazon Nova's models, their features, and API det
 
 | Class | Package | Serializable | JS/TS Support | Downloads | Latest Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
-| [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) | [`langchain-amazon-nova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova) | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-amazon-nova?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-amazon-nova?style=flat-square&label=%20) |
+| [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) | [`langchain-amazon-nova`](https://reference.langchain.com/python/langchain-amazon-nova/) | beta | ❌ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-amazon-nova?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-amazon-nova?style=flat-square&label=%20) |
 
 ### Model features
 
@@ -33,7 +33,7 @@ You can find information about Amazon Nova's models, their features, and API det
 
 ## Setup
 
-To access Amazon Nova models, you'll need to [obtain API credentials](https://nova.amazon.com/dev) and install the [`langchain-amazon-nova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova) integration package.
+To access Amazon Nova models, you'll need to [obtain API credentials](https://nova.amazon.com/dev) and install the [`langchain-amazon-nova`](https://reference.langchain.com/python/langchain-amazon-nova/) integration package.
 
 ### Installation
 
@@ -162,7 +162,7 @@ Amazon Nova supports tool calling (function calling) on compatible models. You c
 
 ### Basic tool usage
 
-Bind tools to the model using Pydantic models or LangChain [`@tool`](https://reference.langchain.com/python/langchain/tools/#langchain.tools.tool):
+Bind tools to the model using Pydantic models or LangChain [`@tool`](https://reference.langchain.com/python/langchain-core/tools/convert/tool):
 
 ```python
 from pydantic import BaseModel, Field
@@ -551,7 +551,7 @@ For authentication and connection issues, refer to the [Amazon Nova documentatio
 ### Compression errors
 
 <Note>
-    The [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) client automatically disables compression to avoid potential decompression issues.
+    The [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) client automatically disables compression to avoid potential decompression issues.
 </Note>
 
 If you need to customize HTTP client behavior, you can access the underlying OpenAI client:
@@ -570,7 +570,7 @@ If you receive a validation error when binding tools, ensure the model supports 
 
 ## API reference
 
-For detailed documentation of all [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) features and configurations, head to the [`ChatAmazonNova`](https://reference.langchain.com/python/integrations/langchain_amazon_nova/#langchain_amazon_nova.ChatAmazonNova) API reference.
+For detailed documentation of all [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) features and configurations, head to the [`ChatAmazonNova`](https://reference.langchain.com/python/langchain-amazon-nova/chat_models/ChatAmazonNova) API reference.
 
 For Amazon Nova-specific features, model details, and API specifications, see the [Amazon Nova documentation](https://nova.amazon.com/dev/documentation).
 

@@ -4,7 +4,7 @@ title: MISSING_CHECKPOINTER
 
 You are attempting to use built-in LangGraph persistence without providing a checkpointer.
 
-This happens when a `checkpointer` is missing in the `compile()` method of [`StateGraph`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph) or [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.entrypoint).
+This happens when a `checkpointer` is missing in the `compile()` method of [`StateGraph`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph) or [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/entrypoint).
 
 
 
@@ -14,7 +14,7 @@ This happens when a `checkpointer` is missing in the `compile()` method of [`Sta
 
 The following may help resolve this error:
 
--   Initialize and pass a checkpointer to the `compile()` method of [`StateGraph`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph) or [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.entrypoint).
+-   Initialize and pass a checkpointer to the `compile()` method of [`StateGraph`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph) or [`@entrypoint`](https://reference.langchain.com/python/langgraph/func/entrypoint).
 
 
 

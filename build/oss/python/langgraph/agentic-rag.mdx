@@ -425,7 +425,7 @@ Now we'll assemble all the nodes and edges into a complete graph:
   * Otherwise, respond directly to the user
 * Grade retrieved document content for relevance to the question (`grade_documents`) and route to next step:
   * If not relevant, rewrite the question using `rewrite_question` and then call `generate_query_or_respond` again
-  * If relevant, proceed to `generate_answer` and generate final response using the [`ToolMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.ToolMessage) with the retrieved document context
+  * If relevant, proceed to `generate_answer` and generate final response using the [`ToolMessage`](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage) with the retrieved document context
 
 ```python
 from langgraph.graph import StateGraph, START, END

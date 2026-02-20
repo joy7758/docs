@@ -430,7 +430,7 @@ Now we'll assemble all the nodes and edges into a complete graph:
   * Otherwise, respond directly to the user
 * Grade retrieved document content for relevance to the question (`gradeDocuments`) and route to next step:
   * If not relevant, rewrite the question using `rewrite` and then call `generateQueryOrRespond` again
-  * If relevant, proceed to `generate` and generate final response using the [`ToolMessage`](https://reference.langchain.com/javascript/classes/_langchain_core.messages.ToolMessage.html) with the retrieved document context
+  * If relevant, proceed to `generate` and generate final response using the [`ToolMessage`](https://reference.langchain.com/javascript/langchain-core/messages/ToolMessage) with the retrieved document context
 
 ```typescript
 import { StateGraph, START, END, ConditionalEdgeRouter } from "@langchain/langgraph";

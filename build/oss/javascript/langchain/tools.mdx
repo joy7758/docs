@@ -99,7 +99,7 @@ const result = await agent.invoke(
 
 ### Long-term memory (Store)
 
-The [`BaseStore`](https://reference.langchain.com/javascript/classes/_langchain_langgraph-checkpoint.BaseStore.html) provides persistent storage that survives across conversations. Unlike state (short-term memory), data saved to the store remains available in future sessions.
+The [`BaseStore`](https://reference.langchain.com/javascript/langchain-core/stores/BaseStore) provides persistent storage that survives across conversations. Unlike state (short-term memory), data saved to the store remains available in future sessions.
 
 
 
@@ -216,10 +216,10 @@ const getWeather = tool(
 
 ## ToolNode
 
-[`ToolNode`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.prebuilt.ToolNode.html) is a prebuilt node that executes tools in LangGraph workflows. It handles parallel tool execution, error handling, and state injection automatically.
+[`ToolNode`](https://reference.langchain.com/javascript/langchain-langgraph/prebuilt/ToolNode) is a prebuilt node that executes tools in LangGraph workflows. It handles parallel tool execution, error handling, and state injection automatically.
 
 <Info>
-    For custom workflows where you need fine-grained control over tool execution patterns, use [`ToolNode`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.prebuilt.ToolNode.html) instead of @[`create_agent`]. It's the building block that powers agent tool execution.
+    For custom workflows where you need fine-grained control over tool execution patterns, use [`ToolNode`](https://reference.langchain.com/javascript/langchain-langgraph/prebuilt/ToolNode) instead of @[`create_agent`]. It's the building block that powers agent tool execution.
 </Info>
 
 ### Basic usage
@@ -256,7 +256,7 @@ const toolNode = new ToolNode([search, calculator]);
 
 ### Error handling
 
-Configure how tool errors are handled. See the [`ToolNode`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.prebuilt.ToolNode.html) API reference for all options.
+Configure how tool errors are handled. See the [`ToolNode`](https://reference.langchain.com/javascript/langchain-langgraph/prebuilt/ToolNode) API reference for all options.
 
 
 

@@ -99,7 +99,7 @@ response = model.invoke(messages)
 
 ### System message
 
-A [`SystemMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.SystemMessage) represent an initial set of instructions that primes the model's behavior. You can use a system message to set the tone, define the model's role, and establish guidelines for responses.
+A [`SystemMessage`](https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage) represent an initial set of instructions that primes the model's behavior. You can use a system message to set the tone, define the model's role, and establish guidelines for responses.
 
 ```python Basic instructions
 system_msg = SystemMessage("You are a helpful coding assistant.")
@@ -137,7 +137,7 @@ response = model.invoke(messages)
 
 ### Human message
 
-A [`HumanMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.HumanMessage) represents user input and interactions. They can contain text, images, audio, files, and any other amount of multimodal [content](#message-content).
+A [`HumanMessage`](https://reference.langchain.com/python/langchain-core/messages/human/HumanMessage) represents user input and interactions. They can contain text, images, audio, files, and any other amount of multimodal [content](#message-content).
 
 #### Text content
 
@@ -178,7 +178,7 @@ human_msg = HumanMessage(
 
 ### AI message
 
-An [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) represents the output of a model invocation. They can include multimodal data, tool calls, and provider-specific metadata that you can later access.
+An [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) represents the output of a model invocation. They can include multimodal data, tool calls, and provider-specific metadata that you can later access.
 
 ```python
 response = model.invoke("Explain AI")
@@ -188,9 +188,9 @@ print(type(response))  # <class 'langchain.messages.AIMessage'>
 
 
 
-[`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) objects are returned by the model when calling it, which contains all of the associated metadata in the response.
+[`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) objects are returned by the model when calling it, which contains all of the associated metadata in the response.
 
-Providers weigh/contextualize types of messages differently, which means it is sometimes helpful to manually create a new [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) object and insert it into the message history as if it came from the model.
+Providers weigh/contextualize types of messages differently, which means it is sometimes helpful to manually create a new [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) object and insert it into the message history as if it came from the model.
 
 ```python
 from langchain.messages import AIMessage, SystemMessage, HumanMessage
@@ -243,7 +243,7 @@ response = model.invoke(messages)
 
 #### Tool calls
 
-When models make [tool calls](/oss/python/langchain/models#tool-calling), they're included in the [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage):
+When models make [tool calls](/oss/python/langchain/models#tool-calling), they're included in the [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage):
 
 ```python
 from langchain.chat_models import init_chat_model
@@ -270,7 +270,7 @@ Other structured data, such as reasoning or citations, can also appear in messag
 
 #### Token usage
 
-An [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) can hold token counts and other usage metadata in its [`usage_metadata`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.UsageMetadata) field:
+An [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) can hold token counts and other usage metadata in its [`usage_metadata`](https://reference.langchain.com/python/langchain-core/messages/ai/UsageMetadata) field:
 
 ```python
 from langchain.chat_models import init_chat_model
@@ -291,11 +291,11 @@ response.usage_metadata
 
 
 
-See [`UsageMetadata`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.UsageMetadata) for details.
+See [`UsageMetadata`](https://reference.langchain.com/python/langchain-core/messages/ai/UsageMetadata) for details.
 
 #### Streaming and chunks
 
-During streaming, you'll receive [`AIMessageChunk`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessageChunk) objects that can be combined into a full message object:
+During streaming, you'll receive [`AIMessageChunk`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessageChunk) objects that can be combined into a full message object:
 
 ```python
 chunks = []
@@ -321,7 +321,7 @@ Learn more:
 
 For models that support [tool calling](/oss/python/langchain/models#tool-calling), AI messages can contain tool calls. Tool messages are used to pass the results of a single tool execution back to the model.
 
-[Tools](/oss/python/langchain/tools) can generate [`ToolMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.ToolMessage) objects directly. Below, we show a simple example. Read more in the [tools guide](/oss/python/langchain/tools).
+[Tools](/oss/python/langchain/tools) can generate [`ToolMessage`](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage) objects directly. Below, we show a simple example. Read more in the [tools guide](/oss/python/langchain/tools).
 
 ```python
 from langchain.messages import AIMessage
@@ -362,7 +362,7 @@ response = model.invoke(messages)  # Model processes the result
         The stringified output of the tool call.
     </ParamField>
     <ParamField path="tool_call_id" type="string" required>
-        The ID of the tool call that this message is responding to. Must match the ID of the tool call in the [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage).
+        The ID of the tool call that this message is responding to. Must match the ID of the tool call in the [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage).
     </ParamField>
     <ParamField path="name" type="string" required>
         The name of the tool that was called.
@@ -1016,12 +1016,12 @@ Content blocks are represented (either when creating a message or accessing the 
 <Info>
     Content blocks were introduced as a new property on messages in LangChain v1 to standardize content formats across providers while maintaining backward compatibility with existing code.
 
-    Content blocks are not a replacement for the [`content`](https://reference.langchain.com/python/langchain_core/language_models/#langchain_core.messages.BaseMessage.content) property, but rather a new property that can be used to access the content of a message in a standardized format.
+    Content blocks are not a replacement for the [`content`](https://reference.langchain.com/python/langchain-core/messages/base/BaseMessage) property, but rather a new property that can be used to access the content of a message in a standardized format.
 </Info>
 
 ## Use with chat models
 
-[Chat models](/oss/python/langchain/models) accept a sequence of message objects as input and return an [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) as output. Interactions are often stateless, so that a simple conversational loop involves invoking a model with a growing list of messages.
+[Chat models](/oss/python/langchain/models) accept a sequence of message objects as input and return an [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) as output. Interactions are often stateless, so that a simple conversational loop involves invoking a model with a growing list of messages.
 
 Refer to the below guides to learn more:
 

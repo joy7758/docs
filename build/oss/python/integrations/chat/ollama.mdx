@@ -12,7 +12,7 @@ For a complete list of supported models and model variants, see the [Ollama mode
 <Tip>
     **API Reference**
 
-    For detailed documentation of all features and configuration options, head to the [`ChatOllama`](https://reference.langchain.com/python/integrations/langchain_ollama/#langchain_ollama.ChatOllama) API reference.
+    For detailed documentation of all features and configuration options, head to the [`ChatOllama`](https://reference.langchain.com/python/langchain-community/chat_models/ollama/ChatOllama) API reference.
 </Tip>
 
 ## Overview
@@ -21,7 +21,7 @@ For a complete list of supported models and model variants, see the [Ollama mode
 
 | Class | Package | Serializable | [JS support](https://js.langchain.com/docs/integrations/chat/ollama) | Downloads | Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
-| [`ChatOllama`](https://reference.langchain.com/python/integrations/langchain_ollama/#langchain_ollama.ChatOllama) | [`langchain-ollama`](https://reference.langchain.com/python/integrations/langchain_ollama) | ❌ | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-ollama?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-ollama?style=flat-square&label=%20) |
+| [`ChatOllama`](https://reference.langchain.com/python/langchain-community/chat_models/ollama/ChatOllama) | [`langchain-ollama`](https://reference.langchain.com/python/langchain-ollama/) | ❌ | ✅ | ![PyPI - Downloads](https://img.shields.io/pypi/dm/langchain-ollama?style=flat-square&label=%20) | ![PyPI - Version](https://img.shields.io/pypi/v/langchain-ollama?style=flat-square&label=%20) |
 
 ### Model features
 
@@ -128,7 +128,7 @@ We can use [tool calling](/oss/python/langchain/tools/) with an LLM [that has be
 ollama pull gpt-oss:20b
 ```
 
-Details on creating custom tools are available in [this guide](/oss/python/langchain/tools#customize-tool-properties). Below, we demonstrate how to create a tool using the [`@tool`](https://reference.langchain.com/python/langchain/tools/#langchain.tools.tool) decorator on a normal python function.
+Details on creating custom tools are available in [this guide](/oss/python/langchain/tools#customize-tool-properties). Below, we demonstrate how to create a tool using the [`@tool`](https://reference.langchain.com/python/langchain-core/tools/convert/tool) decorator on a normal python function.
 
 ```python
 from typing import List

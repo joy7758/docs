@@ -8,7 +8,7 @@ You can find information about OpenAI's latest models, their costs, context wind
 <Tip>
     **API Reference**
 
-    For detailed documentation of all features and configuration options, head to the [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) API reference.
+    For detailed documentation of all features and configuration options, head to the [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) API reference.
 </Tip>
 
 <Warning>
@@ -23,7 +23,7 @@ You can find information about OpenAI's latest models, their costs, context wind
 
 | Class | Package | Serializable | JS/TS Support | Downloads | Latest Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
-| [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) | [`langchain-openai`](https://reference.langchain.com/python/integrations/langchain_openai) | beta | ✅ [(npm)](https://js.langchain.com/docs/integrations/chat/openai) | <a href="https://pypi.org/project/langchain-openai/" target="_blank"><img src="https://static.pepy.tech/badge/langchain-openai/month" alt="Downloads per month" noZoom height="100" class="rounded" /></a> | <a href="https://pypi.org/project/langchain-openai/" target="_blank"><img src="https://img.shields.io/pypi/v/langchain-openai?style=flat-square&label=%20&color=orange" alt="PyPI - Latest version" noZoom height="100" class="rounded" /></a> |
+| [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) | [`langchain-openai`](https://reference.langchain.com/python/langchain-openai/) | beta | ✅ [(npm)](https://js.langchain.com/docs/integrations/chat/openai) | <a href="https://pypi.org/project/langchain-openai/" target="_blank"><img src="https://static.pepy.tech/badge/langchain-openai/month" alt="Downloads per month" noZoom height="100" class="rounded" /></a> | <a href="https://pypi.org/project/langchain-openai/" target="_blank"><img src="https://img.shields.io/pypi/v/langchain-openai?style=flat-square&label=%20&color=orange" alt="PyPI - Latest version" noZoom height="100" class="rounded" /></a> |
 
 ### Model features
 
@@ -87,7 +87,7 @@ llm = ChatOpenAI(
 )
 ```
 
-See the [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) API Reference for the full set of available model parameters.
+See the [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) API Reference for the full set of available model parameters.
 
 <Note>
     **Token parameter deprecation**
@@ -129,7 +129,7 @@ J'adore la programmation.
 
 OpenAI's Chat Completions API does not stream token usage statistics by default (see API reference [here](https://platform.openai.com/docs/api-reference/completions/create#completions-create-stream_options)).
 
-To recover token counts when streaming with [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) or `AzureChatOpenAI`, set `stream_usage=True` as an initialization parameter or on invocation:
+To recover token counts when streaming with [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) or `AzureChatOpenAI`, set `stream_usage=True` as an initialization parameter or on invocation:
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -559,7 +559,7 @@ structured_response = structured_llm.invoke(
 
 OpenAI supports a [Responses](https://platform.openai.com/docs/guides/responses-vs-chat-completions) API that is oriented toward building [agentic](/oss/python/langchain/agents) applications. It includes a suite of [built-in tools](https://platform.openai.com/docs/guides/tools?api-mode=responses), including web and file search. It also supports management of [conversation state](https://platform.openai.com/docs/guides/conversation-state?api-mode=responses), allowing you to continue a conversational thread without explicitly passing in previous messages, as well as the output from [reasoning processes](https://platform.openai.com/docs/guides/reasoning?api-mode=responses).
 
-[`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) will route to the Responses API if one of these features is used. You can also specify `use_responses_api=True` when instantiating [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI).
+[`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) will route to the Responses API if one of these features is used. You can also specify `use_responses_api=True` when instantiating [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI).
 
 ### Web search
 
@@ -740,9 +740,9 @@ response.content_blocks[0]
 
 ### Computer use
 
-[`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) supports the `"computer-use-preview"` model, which is a specialized model for the built-in computer use tool. To enable, pass a [computer use tool](https://platform.openai.com/docs/guides/tools-computer-use) as you would pass another tool.
+[`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) supports the `"computer-use-preview"` model, which is a specialized model for the built-in computer use tool. To enable, pass a [computer use tool](https://platform.openai.com/docs/guides/tools-computer-use) as you would pass another tool.
 
-Currently, tool outputs for computer use are present in the message `content` field. To reply to the computer use tool call, construct a [`ToolMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.ToolMessage) with `{"type": "computer_call_output"}` in its `additional_kwargs`. The content of the message will be a screenshot. Below, we demonstrate a simple example.
+Currently, tool outputs for computer use are present in the message `content` field. To reply to the computer use tool call, construct a [`ToolMessage`](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage) with `{"type": "computer_call_output"}` in its `additional_kwargs`. The content of the message will be a screenshot. Below, we demonstrate a simple example.
 
 First, load two screenshots:
 
@@ -825,7 +825,7 @@ response.content
   'type': 'computer_call'}]
 ```
 
-We next construct a [`ToolMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.ToolMessage) with these properties:
+We next construct a [`ToolMessage`](https://reference.langchain.com/python/langchain-core/messages/tool/ToolMessage) with these properties:
 
 1. It has a `tool_call_id` matching the `call_id` from the computer-call.
 2. It has `{"type": "computer_call_output"}` in its `additional_kwargs`.
@@ -1136,7 +1136,7 @@ When enabled, `AIMessage` responses may contain blocks with `"type": "compaction
 
 Some OpenAI models will generate separate text content illustrating their reasoning process. See OpenAI's [reasoning documentation](https://platform.openai.com/docs/guides/reasoning?api-mode=responses) for details.
 
-OpenAI can return a summary of the model's reasoning (although it doesn't expose the raw reasoning tokens). To configure [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) to return this summary, specify the `reasoning` parameter. [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) will automatically route to the Responses API if this parameter is set.
+OpenAI can return a summary of the model's reasoning (although it doesn't expose the raw reasoning tokens). To configure [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) to return this summary, specify the `reasoning` parameter. [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) will automatically route to the Responses API if this parameter is set.
 
 ```python
 from langchain_openai import ChatOpenAI
@@ -1208,7 +1208,7 @@ You can see the list of models that support different modalities in [OpenAI's do
 
 For all modalities, LangChain supports both its cross-provider standard as well as OpenAI's native content-block format.
 
-To pass multimodal data into [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI), create a [content block](/oss/python/langchain/messages/) containing the data and incorporate it into a message, e.g., as below:
+To pass multimodal data into [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI), create a [content block](/oss/python/langchain/messages/) containing the data and incorporate it into a message, e.g., as below:
 
 ```python
 message = {
@@ -1538,7 +1538,7 @@ Note that this is a beta feature that is only available for a subset of models. 
 
 ## API reference
 
-For detailed documentation of all features and configuration options, head to the [`ChatOpenAI`](https://reference.langchain.com/python/integrations/langchain_openai/ChatOpenAI) API reference.
+For detailed documentation of all features and configuration options, head to the [`ChatOpenAI`](https://reference.langchain.com/python/langchain-openai/chat_models/base/ChatOpenAI) API reference.
 
 ---
 

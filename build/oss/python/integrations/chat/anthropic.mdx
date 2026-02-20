@@ -8,7 +8,7 @@ You can find information about Anthropic's latest models, their costs, context w
 <Tip>
     **API Reference**
 
-    For detailed documentation of all features and configuration options, head to the [`ChatAnthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic) API reference.
+    For detailed documentation of all features and configuration options, head to the [`ChatAnthropic`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic) API reference.
 </Tip>
 
 <Info>
@@ -23,7 +23,7 @@ You can find information about Anthropic's latest models, their costs, context w
 
 | Class | Package | Serializable | JS/TS Support | Downloads | Latest Version |
 | :--- | :--- | :---: |  :---: | :---: | :---: |
-| [`ChatAnthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic) | [`langchain-anthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic) | beta | ✅ [(npm)](https://js.langchain.com/docs/integrations/chat/anthropic) | <a href="https://pypi.org/project/langchain-anthropic/" target="_blank"><img src="https://static.pepy.tech/badge/langchain-anthropic/month" alt="Downloads per month" noZoom height="100" class="rounded" /></a> | <a href="https://pypi.org/project/langchain-anthropic/" target="_blank"><img src="https://img.shields.io/pypi/v/langchain-anthropic?style=flat-square&label=%20&color=orange" alt="PyPI - Latest version" noZoom height="100" class="rounded" /></a> |
+| [`ChatAnthropic`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic) | [`langchain-anthropic`](https://reference.langchain.com/python/langchain-anthropic/) | beta | ✅ [(npm)](https://js.langchain.com/docs/integrations/chat/anthropic) | <a href="https://pypi.org/project/langchain-anthropic/" target="_blank"><img src="https://static.pepy.tech/badge/langchain-anthropic/month" alt="Downloads per month" noZoom height="100" class="rounded" /></a> | <a href="https://pypi.org/project/langchain-anthropic/" target="_blank"><img src="https://img.shields.io/pypi/v/langchain-anthropic?style=flat-square&label=%20&color=orange" alt="PyPI - Latest version" noZoom height="100" class="rounded" /></a> |
 
 ### Model features
 
@@ -82,7 +82,7 @@ model = ChatAnthropic(
 )
 ```
 
-See the [`ChatAnthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic) API reference for details on all available instantiation parameters.
+See the [`ChatAnthropic`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic) API reference for details on all available instantiation parameters.
 
 {/* TODO: show use with a proxy or different base_url */}
 
@@ -187,7 +187,7 @@ Learn more about supported invocation methods in our [models](/oss/python/langch
 
 ## Content blocks
 
-When using tools, [extended thinking](#extended-thinking), and other features, content from a single Anthropic [`AIMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage) can either be a single string or a list of Anthropic content blocks.
+When using tools, [extended thinking](#extended-thinking), and other features, content from a single Anthropic [`AIMessage`](https://reference.langchain.com/python/langchain-core/messages/ai/AIMessage) can either be a single string or a list of Anthropic content blocks.
 
 For example, when an Anthropic model invokes a tool, the tool invocation is part of the message content (as well as being exposed in the standardized [`AIMessage.tool_calls`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.AIMessage.tool_calls)):
 
@@ -249,7 +249,7 @@ response.tool_calls
 
 Anthropic's tool use features allow you to define external functions that Claude can call during a conversation. This enables dynamic information retrieval, computations, and interactions with external systems.
 
-See [`ChatAnthropic.bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools) for details on how to bind tools to your model instance.
+See [`ChatAnthropic.bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools) for details on how to bind tools to your model instance.
 
 <Note>
     For information about Claude's built-in tools (code execution, web browsing, files API, etc), see the [Built-in tools](#built-in-tools).
@@ -332,7 +332,7 @@ Strict tool use guarantees schema-compliant tool calls:
 | Tools with many parameters or nested objects | Prototyping and experimentation |
 | Functions that require specific types (e.g., `int` vs `str`) |  |
 
-To enable strict tool use, specify `strict=True` when calling [`bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools).
+To enable strict tool use, specify `strict=True` when calling [`bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools).
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -570,7 +570,7 @@ Claude supports image and PDF inputs as content blocks, both in Anthropic's nati
 
 ### Image input
 
-Provide image inputs along with text using a [`HumanMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.HumanMessage) with list content format.
+Provide image inputs along with text using a [`HumanMessage`](https://reference.langchain.com/python/langchain-core/messages/human/HumanMessage) with list content format.
 
 <CodeGroup>
     ```python URL
@@ -725,7 +725,7 @@ Some Claude models support an [extended thinking](https://platform.claude.com/do
 
 See compatible models in the [Claude documentation](https://platform.claude.com/docs/en/build-with-claude/extended-thinking#supported-models).
 
-To use extended thinking, specify the `thinking` parameter when initializing [`ChatAnthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic). If needed, it can also be passed in as a parameter during invocation.
+To use extended thinking, specify the `thinking` parameter when initializing [`ChatAnthropic`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic). If needed, it can also be passed in as a parameter during invocation.
 
 For Claude Sonnet and earlier models, you will need to specify a token budget. For Claude Opus 4.6+, you can use adaptive thinking which automatically determines the budget.
 
@@ -1026,7 +1026,7 @@ def retrieval_tool(query: str) -> list[dict]:
 
 Anthropic also lets you specify your own splits using [custom document](https://platform.claude.com/docs/en/build-with-claude/citations#custom-content-documents) types. LangChain [text splitters](/oss/python/integrations/splitters/) can be used to generate meaningful splits for this purpose. See the below example, where we split the LangChain `README.md` (a markdown document) and pass it to Claude as context:
 
-This example requires [`langchain-text-splitters`](https://reference.langchain.com/python/langchain_text_splitters/) to be installed:
+This example requires [`langchain-text-splitters`](https://reference.langchain.com/python/langchain-text-splitters/) to be installed:
 
 ```bash
 pip install langchain-text-splitters
@@ -1177,7 +1177,7 @@ response = model.invoke(
         ]
         ```
 
-        Details of cached token counts will be included on the [`InputTokenDetails`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.InputTokenDetails) of response's [`usage_metadata`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.UsageMetadata):
+        Details of cached token counts will be included on the [`InputTokenDetails`](https://reference.langchain.com/python/langchain-core/messages/ai/InputTokenDetails) of response's [`usage_metadata`](https://reference.langchain.com/python/langchain-core/messages/ai/UsageMetadata):
 
         ```python
         response = model.invoke(messages)
@@ -1379,7 +1379,7 @@ Below, we implement a simple chatbot that incorporates this feature. We follow t
 
 ## Token counting
 
-You can count tokens in messages before sending them to the model using [`get_num_tokens_from_messages()`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.get_num_tokens_from_messages). This uses Anthropic's official [token counting API](https://platform.claude.com/docs/en/build-with-claude/token-counting).
+You can count tokens in messages before sending them to the model using [`get_num_tokens_from_messages()`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/get_num_tokens_from_messages). This uses Anthropic's official [token counting API](https://platform.claude.com/docs/en/build-with-claude/token-counting).
 
 <AccordionGroup>
     <Accordion
@@ -1616,7 +1616,7 @@ Anthropic supports a variety of built-in client and server-side [tools](/oss/pyt
 
 Server-side tools (e.g., [web search](#web-search)) are passed to the model and executed by Anthropic. Client-side tools (e.g., [bash tool](#bash-tool)) require you to implement the callback execution logic in your application and return results to the model.
 
-In either case, you make tools accessible to your chat model by using [`bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools) on the model instance.
+In either case, you make tools accessible to your chat model by using [`bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools) on the model instance.
 
 Importantly, client-side tools require you to implement the execution logic. See the relevant sections below for examples.
 
@@ -1625,7 +1625,7 @@ Importantly, client-side tools require you to implement the execution logic. See
 
     For client-side tools (e.g. [bash](#bash-tool), [text editor](#text-editor), [memory](#memory-tool)), you may opt to use [middleware](/oss/python/integrations/middleware/anthropic), which provide production-ready implementations that contain built-in execution, state management, and security policies.
 
-    Use middleware when you want a turnkey solution; use tools (documented below) when you need custom execution logic or want to use [`bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools) directly.
+    Use middleware when you want a turnkey solution; use tools (documented below) when you need custom execution logic or want to use [`bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools) directly.
 </Info>
 
 <Note>
@@ -1772,7 +1772,7 @@ Claude supports a client-side [bash tool](https://platform.claude.com/docs/en/ag
         # You must handle execution of the bash command in response.tool_calls via a tool execution loop
         ```
 
-        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) handles the tool execution loop automatically.
+        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) handles the tool execution loop automatically.
 
         `response.tool_calls` will contain the bash command Claude wants to execute. You must run this command in your environment and pass the result back.
 
@@ -2114,7 +2114,7 @@ Claude supports client-side [computer use](https://platform.claude.com/docs/en/a
         # You must handle execution of the computer actions in response.tool_calls via a tool execution loop
         ```
 
-        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) handles the tool execution loop automatically.
+        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) handles the tool execution loop automatically.
 
         `response.tool_calls` will contain the computer action Claude wants to perform. You must execute this action in your environment and pass the result back.
 
@@ -2396,7 +2396,7 @@ Claude supports a client-side text editor tool can be used to view and modify te
         # You must handle execution of the text editor commands in response.tool_calls via a tool execution loop
         ```
 
-        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) handles the tool execution loop automatically.
+        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) handles the tool execution loop automatically.
 
         ```python
         [{'name': 'str_replace_based_edit_tool',
@@ -2708,7 +2708,7 @@ Claude supports a memory tool for client-side storage and retrieval of context a
             message.pretty_print()
         ```
 
-        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) handles the tool execution loop automatically.
+        Using [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) handles the tool execution loop automatically.
     </Tab>
 
     <Tab title="Dict">
@@ -2960,7 +2960,7 @@ These can be disabled by setting `stream_usage=False` in the stream method or wh
 
 ## API reference
 
-For detailed documentation of all features and configuration options, head to the [`ChatAnthropic`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic) API reference.
+For detailed documentation of all features and configuration options, head to the [`ChatAnthropic`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic) API reference.
 
 ---
 

@@ -186,17 +186,17 @@ Quick and simple for single-hook middleware. Use decorators to wrap individual f
 **Available decorators:**
 
 **Node-style:**
-- [`@before_agent`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.before_agent) - Runs before agent starts (once per invocation)
-- [`@before_model`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.before_model) - Runs before each model call
-- [`@after_model`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.after_model) - Runs after each model response
-- [`@after_agent`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.after_agent) - Runs after agent completes (once per invocation)
+- [`@before_agent`](https://reference.langchain.com/python/langchain/agents/middleware/types/before_agent) - Runs before agent starts (once per invocation)
+- [`@before_model`](https://reference.langchain.com/python/langchain/agents/middleware/types/before_model) - Runs before each model call
+- [`@after_model`](https://reference.langchain.com/python/langchain/agents/middleware/types/after_model) - Runs after each model response
+- [`@after_agent`](https://reference.langchain.com/python/langchain/agents/middleware/types/after_agent) - Runs after agent completes (once per invocation)
 
 **Wrap-style:**
-- [`@wrap_model_call`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.wrap_model_call) - Wraps each model call with custom logic
-- [`@wrap_tool_call`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.wrap_tool_call) - Wraps each tool call with custom logic
+- [`@wrap_model_call`](https://reference.langchain.com/python/langchain/agents/middleware/types/wrap_model_call) - Wraps each model call with custom logic
+- [`@wrap_tool_call`](https://reference.langchain.com/python/langchain/agents/middleware/types/wrap_tool_call) - Wraps each tool call with custom logic
 
 **Convenience:**
-- [`@dynamic_prompt`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.dynamic_prompt) - Generates dynamic system prompts
+- [`@dynamic_prompt`](https://reference.langchain.com/python/langchain/agents/middleware/types/dynamic_prompt) - Generates dynamic system prompts
 
 **Example:**
 
@@ -714,7 +714,7 @@ agent = create_agent(
 
 ### Working with system messages
 
-Modify system messages in middleware using the `system_message` field on `ModelRequest`. The `system_message` field contains a [`SystemMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.SystemMessage) object (even if the agent was created with a string `system_prompt`).
+Modify system messages in middleware using the `system_message` field on `ModelRequest`. The `system_message` field contains a [`SystemMessage`](https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage) object (even if the agent was created with a string `system_prompt`).
 
 **Example: Adding context to system message**
 
@@ -832,10 +832,10 @@ class CachedContextMiddleware(AgentMiddleware):
 </Tabs>
 
 **Notes:**
-- `ModelRequest.system_message` is always a [`SystemMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.SystemMessage) object, even if the agent was created with `system_prompt="string"`
+- `ModelRequest.system_message` is always a [`SystemMessage`](https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage) object, even if the agent was created with `system_prompt="string"`
 - Use `SystemMessage.content_blocks` to access content as a list of blocks, regardless of whether the original content was a string or list
 - When modifying system messages, use `content_blocks` and append new blocks to preserve existing structure
-- You can pass [`SystemMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.SystemMessage) objects directly to `create_agent`'s `system_prompt` parameter for advanced use cases like cache control
+- You can pass [`SystemMessage`](https://reference.langchain.com/python/langchain-core/messages/system/SystemMessage) objects directly to `create_agent`'s `system_prompt` parameter for advanced use cases like cache control
 
 
 

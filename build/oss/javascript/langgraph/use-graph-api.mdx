@@ -1694,10 +1694,10 @@ const lookupUserInfo = tool(
 
 
 <Warning>
-You MUST include `messages` (or any state key used for the message history) in `Command.update` when returning [`Command`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.Command.html) from a tool and the list of messages in `messages` MUST contain a `ToolMessage`. This is necessary for the resulting message history to be valid (LLM providers require AI messages with tool calls to be followed by the tool result messages).
+You MUST include `messages` (or any state key used for the message history) in `Command.update` when returning [`Command`](https://reference.langchain.com/javascript/langchain-langgraph/index/Command) from a tool and the list of messages in `messages` MUST contain a `ToolMessage`. This is necessary for the resulting message history to be valid (LLM providers require AI messages with tool calls to be followed by the tool result messages).
 </Warning>
 
-If you are using tools that update state via [`Command`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.Command.html), we recommend using prebuilt [`ToolNode`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.prebuilt.ToolNode.html) which automatically handles tools returning [`Command`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.Command.html) objects and propagates them to the graph state. If you're writing a custom node that calls tools, you would need to manually propagate [`Command`](https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.Command.html) objects returned by the tools as the update from the node.
+If you are using tools that update state via [`Command`](https://reference.langchain.com/javascript/langchain-langgraph/index/Command), we recommend using prebuilt [`ToolNode`](https://reference.langchain.com/javascript/langchain-langgraph/prebuilt/ToolNode) which automatically handles tools returning [`Command`](https://reference.langchain.com/javascript/langchain-langgraph/index/Command) objects and propagates them to the graph state. If you're writing a custom node that calls tools, you would need to manually propagate [`Command`](https://reference.langchain.com/javascript/langchain-langgraph/index/Command) objects returned by the tools as the update from the node.
 
 ## Visualize your graph
 

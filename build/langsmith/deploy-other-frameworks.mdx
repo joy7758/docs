@@ -37,8 +37,8 @@ agent = Agent(
 
 It uses two key building blocks:
 
-* **[`@entrypoint`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.entrypoint)**: Marks a function as the starting point of a workflow, encapsulating logic and managing execution flow, including handling long-running tasks and interrupts.
-* **[`@task`](https://reference.langchain.com/python/langgraph/func/#langgraph.func.task)**: Represents a discrete unit of work, such as an API call or data processing step, that can be executed asynchronously within an entrypoint. Tasks return a future-like object that can be awaited or resolved synchronously.
+* **[`@entrypoint`](https://reference.langchain.com/python/langgraph/func/entrypoint)**: Marks a function as the starting point of a workflow, encapsulating logic and managing execution flow, including handling long-running tasks and interrupts.
+* **[`@task`](https://reference.langchain.com/python/langgraph/func/task)**: Represents a discrete unit of work, such as an API call or data processing step, that can be executed asynchronously within an entrypoint. Tasks return a future-like object that can be awaited or resolved synchronously.
 
 ```python
 from strands.types.content import Message

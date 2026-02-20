@@ -29,14 +29,14 @@ Middleware specifically designed for Anthropic's Claude models. Learn more about
 | Filesystem file editing | Middleware | Writes to disk with path validation |
 | Custom execution logic | Tools | Full control over execution |
 | Quick prototype | Tools | Simpler, bring your own callback |
-| Non-agent use with [`bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools) | Tools | Middleware requires [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) |
+| Non-agent use with [`bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools) | Tools | Middleware requires [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) |
 
 ### Feature comparison
 
 | Feature | Middleware | Tools |
 |---------|:----------:|:-----:|
-| Works with [`create_agent`](https://reference.langchain.com/python/langchain/agents/#langchain.agents.create_agent) | ✅ | ✅ |
-| Works with [`bind_tools`](https://reference.langchain.com/python/integrations/langchain_anthropic/ChatAnthropic/#langchain_anthropic.chat_models.ChatAnthropic.bind_tools) | ❌ | ✅ |
+| Works with [`create_agent`](https://reference.langchain.com/python/langchain/agents/factory/create_agent) | ✅ | ✅ |
+| Works with [`bind_tools`](https://reference.langchain.com/python/langchain-anthropic/chat_models/ChatAnthropic/bind_tools) | ❌ | ✅ |
 | Built-in state management | ✅ | ❌ |
 | Custom execute callback | ❌ | ✅ |
 
@@ -127,7 +127,7 @@ Prompt caching is useful for the following:
     Learn more about [Anthropic prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#cache-limitations) strategies and limitations.
 </Info>
 
-**API reference:** [`AnthropicPromptCachingMiddleware`](https://reference.langchain.com/python/integrations/langchain_anthropic/middleware/#langchain_anthropic.middleware.AnthropicPromptCachingMiddleware)
+**API reference:** [`AnthropicPromptCachingMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/prompt_caching/AnthropicPromptCachingMiddleware)
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -228,7 +228,7 @@ The bash tool middleware is useful for the following:
     This middleware wraps `ShellToolMiddleware` and exposes it as Claude's native bash tool.
 </Info>
 
-**API reference:** [`ClaudeBashToolMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ClaudeBashToolMiddleware)
+**API reference:** [`ClaudeBashToolMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/bash/ClaudeBashToolMiddleware)
 
 ```python
 from langchain_anthropic import ChatAnthropic
@@ -248,7 +248,7 @@ agent = create_agent(
 
 <Accordion title="Configuration options">
 
-`ClaudeBashToolMiddleware` accepts all parameters from [`ShellToolMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.ShellToolMiddleware), including:
+`ClaudeBashToolMiddleware` accepts all parameters from [`ShellToolMiddleware`](https://reference.langchain.com/python/langchain/agents/middleware/shell_tool/ShellToolMiddleware), including:
 
 <ParamField body="workspace_root" type="str | Path | None">
     Base directory for the shell session
@@ -328,8 +328,8 @@ The text editor middleware is useful for the following:
 </Note>
 
 **API references:**
-- [`StateClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.StateClaudeTextEditorMiddleware)
-- [`FilesystemClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.FilesystemClaudeTextEditorMiddleware)
+- [`StateClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/StateClaudeTextEditorMiddleware)
+- [`FilesystemClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/FilesystemClaudeTextEditorMiddleware)
 
 ```python State-based text editor
 from langchain_anthropic import ChatAnthropic
@@ -370,13 +370,13 @@ Claude's text editor tool supports the following commands:
 
 <Accordion title="Configuration options">
 
-**[`StateClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.StateClaudeTextEditorMiddleware) (state-based)**
+**[`StateClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/StateClaudeTextEditorMiddleware) (state-based)**
 
 <ParamField body="allowed_path_prefixes" type="Sequence[str] | None">
     Optional list of allowed path prefixes. If specified, only paths starting with these prefixes are allowed.
 </ParamField>
 
-**[`FilesystemClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.FilesystemClaudeTextEditorMiddleware) (filesystem-based)**
+**[`FilesystemClaudeTextEditorMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/FilesystemClaudeTextEditorMiddleware) (filesystem-based)**
 
 <ParamField body="root_path" type="str" required>
     Root directory for file operations
@@ -489,7 +489,7 @@ The memory middleware is useful for the following:
     Claude's memory tool uses a `/memories` directory and automatically injects a system prompt encouraging the agent to check and update memory.
 </Info>
 
-**API reference:** [`StateClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.StateClaudeMemoryMiddleware), [`FilesystemClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.FilesystemClaudeMemoryMiddleware)
+**API reference:** [`StateClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/StateClaudeMemoryMiddleware), [`FilesystemClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/FilesystemClaudeMemoryMiddleware)
 
 ```python State-based memory
 from langchain_anthropic import ChatAnthropic
@@ -521,7 +521,7 @@ agent_fs = create_agent(
 
 <Accordion title="Configuration options">
 
-**[`StateClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.StateClaudeMemoryMiddleware) (state-based)**
+**[`StateClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/StateClaudeMemoryMiddleware) (state-based)**
 
 <ParamField body="allowed_path_prefixes" type="Sequence[str] | None">
     Optional list of allowed path prefixes. Defaults to `["/memories"]`.
@@ -531,7 +531,7 @@ agent_fs = create_agent(
     System prompt to inject. Defaults to Anthropic's recommended memory prompt that encourages the agent to check and update memory.
 </ParamField>
 
-**[`FilesystemClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.FilesystemClaudeMemoryMiddleware) (filesystem-based)**
+**[`FilesystemClaudeMemoryMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/anthropic_tools/FilesystemClaudeMemoryMiddleware) (filesystem-based)**
 
 <ParamField body="root_path" type="str" required>
     Root directory for file operations
@@ -646,7 +646,7 @@ Provide Glob and Grep search tools for files stored in LangGraph state. File sea
 - Finding files by patterns
 - Content search with regex
 
-**API reference:** [`StateFileSearchMiddleware`](https://reference.langchain.com/python/langchain/middleware/#langchain.agents.middleware.StateFileSearchMiddleware)
+**API reference:** [`StateFileSearchMiddleware`](https://reference.langchain.com/python/langchain-anthropic/middleware/file_search/StateFileSearchMiddleware)
 
 ```python
 from langchain_anthropic import ChatAnthropic

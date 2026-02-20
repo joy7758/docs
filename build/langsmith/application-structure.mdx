@@ -160,9 +160,9 @@ To deploy with LangSmith, you need:
 <Tabs>
   <Tab title="Python">
 
-    1. **A LangGraph graph structure**: Define a graph using [`StateGraph`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph) with [`add_node`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph.add_node) and [`add_edge`](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph.add_edge).
+    1. **A LangGraph graph structure**: Define a graph using [`StateGraph`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph) with [`add_node`](https://reference.langchain.com/python/langgraph/graph/state/StateGraph/add_node) and [`add_edge`](https://reference.langchain.com/python/langgraph/pregel/_draw/add_edge).
     1. **Node functions with arbitrary logic**: Your node functions can call any framework or library.
-    1. **A compiled graph**: [Compile](https://reference.langchain.com/python/langgraph/graphs/#langgraph.graph.state.StateGraph.compile) the graph to create a deployable application.
+    1. **A compiled graph**: [Compile](https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile) the graph to create a deployable application.
 
     The following example shows how to wrap your existing application logic within a minimal LangGraph structure:
 

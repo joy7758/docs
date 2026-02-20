@@ -27,7 +27,7 @@ MessageLikeRepresentation = Union[
 ]
 ```
 
-These include OpenAI style message objects (`{ role: "user", content: "Hello world!" }`), tuples, and plain strings (which are converted to [`HumanMessage`](https://reference.langchain.com/python/langchain/messages/#langchain.messages.HumanMessage) objects).
+These include OpenAI style message objects (`{ role: "user", content: "Hello world!" }`), tuples, and plain strings (which are converted to [`HumanMessage`](https://reference.langchain.com/python/langchain-core/messages/human/HumanMessage) objects).
 
 If a module receives a value outside of one of these formats, you will receive an error:
 

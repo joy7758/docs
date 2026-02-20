@@ -723,7 +723,7 @@ Automatically retry failed tool calls with configurable exponential backoff. Too
 
 
 
-**API reference:** [`toolRetryMiddleware`](https://reference.langchain.com/javascript/functions/langchain.index.toolRetryMiddleware.html)
+**API reference:** [`toolRetryMiddleware`](https://reference.langchain.com/javascript/langchain/index/toolRetryMiddleware)
 
 ```typescript
 import { createAgent, toolRetryMiddleware } from "langchain";
@@ -895,7 +895,7 @@ Automatically retry failed model calls with configurable exponential backoff. Mo
 
 
 
-**API reference:** [`modelRetryMiddleware`](https://reference.langchain.com/javascript/functions/langchain.index.modelRetryMiddleware.html)
+**API reference:** [`modelRetryMiddleware`](https://reference.langchain.com/javascript/langchain/index/modelRetryMiddleware)
 
 ```typescript
 import { createAgent, modelRetryMiddleware } from "langchain";
@@ -1182,10 +1182,10 @@ const agent = createAgent({
 
 
 <ParamField body="edits" type="ContextEdit[]" default="[new ClearToolUsesEdit()]">
-    Array of [`ContextEdit`](https://reference.langchain.com/javascript/interfaces/langchain.index.ContextEdit.html) strategies to apply
+    Array of [`ContextEdit`](https://reference.langchain.com/javascript/langchain/index/ContextEdit) strategies to apply
 </ParamField>
 
-**[`ClearToolUsesEdit`](https://reference.langchain.com/javascript/classes/langchain.index.ClearToolUsesEdit.html) options:**
+**[`ClearToolUsesEdit`](https://reference.langchain.com/javascript/langchain/index/ClearToolUsesEdit) options:**
 
 <ParamField body="triggerTokens" type="number" default="100000">
     Token count that triggers the edit. When the conversation exceeds this token count, older tool outputs will be cleared.
