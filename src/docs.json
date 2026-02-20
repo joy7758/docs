@@ -209,6 +209,7 @@
                   "pages": [
                     {
                       "group": "Integrations",
+                      "icon": "plug",
                       "pages": [
                         "langsmith/integrations",
                         {
@@ -219,6 +220,7 @@
                             "langsmith/trace-deepseek",
                             "langsmith/trace-with-google-gemini",
                             "langsmith/trace-with-langchain",
+                            "langsmith/trace-litellm",
                             "langsmith/trace-with-mistral",
                             "langsmith/trace-openai"
                           ]
