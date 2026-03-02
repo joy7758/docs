@@ -1,13 +1,21 @@
 ---
-title: "NVIDIA integrations"
+title: "NVIDIA"
 description: "Integrate with NVIDIA using LangChain Python."
 ---
+
+LangChain and NVIDIA have partnered to accelerate agents through four mechanisms:
+
+1. [Components](#components)
+2. [LangGraph acceleration primitives](#accelerate-langgraph-with-nvidia)
+3. [NeMo Agent Toolkit optimizations](#nemo-agent-toolkit-optimizations-with-langsmith-telemetry)
+4. [Full Stack blueprints](#full-stack-blueprints)
+
+## Components
 
 The `langchain-nvidia-ai-endpoints` package provides LangChain integrations for chat, embeddings, reranking, and retrieval powered by NVIDIA AI — including [Nemotron](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/), NVIDIA's open model family built for agentic AI, and hundreds of community models on the [NVIDIA API Catalog](https://build.nvidia.com/).
 
 Models run on NVIDIA NIM microservices: container images that expose a standard OpenAI-compatible API, optimized with TensorRT-LLM for peak throughput on NVIDIA hardware. They can be accessed via the hosted API Catalog or self-hosted on-premises.
 
-## Components
 
 | Component | Class | Description |
 | :--- | :--- | :--- |
@@ -131,7 +139,7 @@ docs = retriever.invoke("What is NVIDIA NIM?")
 See the [`NVIDIARetriever` integration page](/oss/python/integrations/retrievers/nvidia) for full documentation.
 
 
-## Self-host with NVIDIA NIM Microservices
+### Self-host with NVIDIA NIM Microservices
 
 When you are ready to deploy your AI application, you can self-host models with NVIDIA NIM. For more information, refer to [NVIDIA NIM Microservices](https://www.nvidia.com/en-us/ai-data-science/products/nim-microservices/).
 
@@ -149,7 +157,7 @@ ranker = NVIDIARerank(base_url="http://localhost:2016/v1")
 ```
 
 
-## Accelerate LangGraph with langchain-nvidia-langgraph
+## Accelerate LangGraph with NVIDIA
 
 The `langchain-nvidia-langgraph` package provides NVIDIA-optimized execution strategies for LangGraph graphs. It offers two complementary optimizations applied at compile time:
 
@@ -166,46 +174,32 @@ pip install -qU langchain-nvidia-langgraph
 
 ### Parallel execution
 
-Replace `StateGraph` with `NvidiaStateGraph`. The rest of your graph definition stays the same.
+Replace `StateGraph` from LangGraph with `StateGraph` from `langchain_nvidia_langgraph.graph`. The rest of your graph definition stays the same.
 
 ```python
-from langchain_nvidia_langgraph import NvidiaStateGraph
+from langchain_nvidia_langgraph.graph import StateGraph, OptimizationConfig
 from langgraph.graph import END
 from typing import TypedDict
 
 class AgentState(TypedDict):
-    question: str
-    context: str
-    answer: str
+  ...
 
-graph = NvidiaStateGraph(AgentState)
-graph.add_node("retrieve", retrieve_node)
-graph.add_node("rerank", rerank_node)
-graph.add_node("generate", generate_node)
-graph.add_edge("retrieve", "rerank")
-graph.add_edge("rerank", "generate")
-graph.add_edge("generate", END)
-graph.set_entry_point("retrieve")
-
-app = graph.compile()  # independent nodes run in parallel automatically
+graph = StateGraph(AgentState)
+app = graph.compile(optimization=OptimizationConfig(enable_parallel=True))
 ```
 
-### Speculative execution
+Or wrap an existing `StateGraph`:
 
-Enable speculation at compile time. The executor runs both sides of conditional branches in parallel and keeps the result that matches the routing decision.
-
-```python
-app = graph.compile(speculation=True)
+```
+from langgraph.graph import StateGraph as LangGraphStateGraph
+graph = LangGraphStateGraph(AgentState)
+app = with_app_compile(graph).compile(optimization=OptimizationConfig(enable_parallel=True))
 ```
 
-> **Limitations:** Speculative execution does not support LangGraph checkpointing, streaming, interrupts, or human-in-the-loop workflows. Use `speculation=False` (the default) when those features are needed.
-
-### Control parallelism with decorators
-
-Three decorators give explicit control over which nodes participate in optimization:
+Decorators give explicit control over which nodes participate in optimization:
 
 ```python
-from langchain_nvidia_langgraph import sequential, depends_on, speculation_unsafe
+from langchain_nvidia_langgraph.graph import sequential, depends_on, speculation_unsafe
 
 # Prevent a node from being parallelized (e.g., it writes to shared state)
 @sequential
@@ -213,32 +207,35 @@ def write_to_db(state):
     ...
 
 # Declare a dependency not expressed in graph edges
-@depends_on("retrieve")
-def log_retrieval(state):
-    ...
-
-# Exclude a node from speculative execution (e.g., it has side effects)
-@speculation_unsafe
-def send_notification(state):
+@depends_on("wrte_to_db")
+def next_action(state):
     ...
 ```
 
-### Wrap an existing compiled graph
+### Speculative execution
 
-If you already have a compiled LangGraph app and want to add NVIDIA optimization without modifying your graph definition, use `with_app_compile`:
+Enable speculation via `OptimizationConfig` at compile time. The executor runs both sides of conditional branches in parallel and keeps the result that matches the routing decision.
 
 ```python
-from langchain_nvidia_langgraph import with_app_compile
-from langgraph.graph import StateGraph
-
-graph = StateGraph(AgentState)
-# ... add nodes and edges as normal ...
-
-app = with_app_compile(graph, speculation=False)
+app = graph.compile(optimization=OptimizationConfig(enable_speculation=True))
 ```
 
+## NeMo Agent Toolkit Optimizations with LangSmith Telemetry
 
-## Related topics
+The NVIDIA NeMo Agent Toolkit is an open-source AI toolkit for building, profiling, and optimizing agents. Developers can use LangChain with NeMo Agent Toolkit with minimal code changes to enable profiling, evaluation, GPU capacity plans, and automated optimization. NeMo Agent Toolkit is interoperable with LangSmith.
+
+- [Get Started with NeMo Agent Toolkit and LangChain](https://github.com/NVIDIA/NeMo-Agent-Toolkit/blob/develop/examples/frameworks/auto_wrapper/langchain_deep_research/langgraph_deep_research.ipynb)
+
+- [Optimize LangChain with NeMo Agent Toolkit and LangSmith](https://github.com/NVIDIA/NeMo-Agent-Toolkit/blob/develop/docs/source/run-workflows/observe/observe-workflow-with-langsmith.md)
+
+## Full Stack Blueprints
+
+NVIDIA and LangChain have collaborated on [full stack deep agent examples](https://github.com/langchain-ai/deepagents/tree/main/examples) showing how all these components are combined for two enterprise use cases, with focus on production readiness:
+
+- [NVIDIA AI-Q](https://github.com/NVIDIA-AI-Blueprints/aiq/tree/develop) is a blueprint for deep research across enterprise data sources
+- [NVIDIA VSS](https://github.com/NVIDIA-AI-Blueprints/video-search-and-summarization) is a blueprint for video search and summarization
+
+## Additional Resources
 
 - [`langchain-nvidia-ai-endpoints` package README](https://github.com/langchain-ai/langchain-nvidia/blob/main/libs/ai-endpoints/README.md)
 - [`langchain-nvidia-langgraph` package](https://github.com/langchain-ai/langchain-nvidia/tree/main/libs/langgraph)
