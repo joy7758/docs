@@ -846,6 +846,8 @@
                 "langsmith/reference",
                 "langsmith/smith-python-sdk",
                 "langsmith/smith-js-ts-sdk",
+                "langsmith/smith-go-sdk",
+                "langsmith/smith-java-sdk",
                 "langsmith/langgraph-python-sdk",
                 "langsmith/langgraph-js-ts-sdk",
                 "langsmith/smith-api-ref",
