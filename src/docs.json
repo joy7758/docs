@@ -1055,7 +1055,15 @@
                       "group": "Agent development",
                       "pages": [
                             "oss/python/langchain/studio",
-                            "oss/python/langchain/test",
+                            {
+                              "group": "Test",
+                              "pages": [
+                                "oss/python/langchain/test/index",
+                                "oss/python/langchain/test/unit-testing",
+                                "oss/python/langchain/test/integration-testing",
+                                "oss/python/langchain/test/evals"
+                              ]
+                            },
                             "oss/python/langchain/ui"
                       ]
                     },
@@ -1422,7 +1430,15 @@
                       "group": "Agent development",
                       "pages": [
                             "oss/javascript/langchain/studio",
-                            "oss/javascript/langchain/test",
+                            {
+                              "group": "Test",
+                              "pages": [
+                                "oss/javascript/langchain/test/index",
+                                "oss/javascript/langchain/test/unit-testing",
+                                "oss/javascript/langchain/test/integration-testing",
+                                "oss/javascript/langchain/test/evals"
+                              ]
+                            },
                             "oss/javascript/langchain/ui"
                       ]
                     },
