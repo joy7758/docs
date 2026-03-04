@@ -1,0 +1,56 @@
+```python
+from typing import Any, TypedDict
+
+from langchain_anthropic import ChatAnthropic
+from langgraph.graph import START, StateGraph
+
+# Create two models: one that streams, one that doesn't
+streaming_model = ChatAnthropic(model="claude-3-haiku-20240307")
+internal_model = ChatAnthropic(model="claude-3-haiku-20240307").with_config(
+    {"tags": ["nostream"]}
+)
+
+
+class State(TypedDict):
+    """State for the graph."""
+
+    topic: str
+    public_response: str
+    internal_analysis: str
+
+
+def generate_response(state: State) -> dict[str, Any]:
+    """Generate a public response that will be streamed."""
+    topic = state["topic"]
+    response = streaming_model.invoke(
+        [{"role": "user", "content": f"Write a short response about {topic}"}]
+    )
+    return {"public_response": response.content}
+
+
+def analyze_internally(state: State) -> dict[str, Any]:
+    """Analyze internally without streaming tokens."""
+    topic = state["topic"]
+    # This model has the "nostream" tag, so its tokens won't appear in the stream
+    analysis = internal_model.invoke(
+        [{"role": "user", "content": f"Analyze the topic: {topic}"}]
+    )
+    return {"internal_analysis": analysis.content}
+
+
+graph = (
+    StateGraph(State)
+    .add_node("generate_response", generate_response)
+    .add_node("analyze_internally", analyze_internally)
+    .add_edge(START, "generate_response")
+    .add_edge(START, "analyze_internally")
+    .compile()
+)
+
+# Stream with "messages" mode - only tokens from streaming_model will appear
+for msg, _metadata in graph.stream({"topic": "AI"}, stream_mode="messages"):
+    # Only tokens from generate_response will be streamed
+    # Tokens from analyze_internally are omitted due to "nostream" tag
+    if msg.content:
+        print(msg.content, end="|", flush=True)  # noqa: T201
+```
