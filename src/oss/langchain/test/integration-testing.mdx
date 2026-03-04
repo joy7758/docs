@@ -192,20 +192,140 @@ test("agent calls weather tool", async () => {
     messages: [new HumanMessage("What's the weather in SF?")]
   });
 
-  const toolCalls = result.messages
-    .filter((msg: AIMessage) => msg.tool_calls?.length)
-    .flatMap((msg: AIMessage) => msg.tool_calls!);
-
-  expect(toolCalls.some((tc) => tc.name === "get_weather")).toBe(true);
-  expect(result.messages.at(-1)).toBeInstanceOf(AIMessage);
-  expect(result.messages.at(-1)?.content).toBeTruthy();
+  const aiMsg = result.messages.find(
+    (m) => m._getType() === "ai" && m.tool_calls?.length
+  );
+  expect(aiMsg).toContainToolCall({ name: "get_weather" });
+  expect(result.messages.at(-1)).toBeAIMessage();
 });
 ```
+
+This example uses [custom test matchers](#use-custom-test-matchers). See the section below for setup and the full matcher reference.
 :::
 
 <Tip>
 For more rigorous trajectory assertions, use the [AgentEvals](/oss/langchain/test/evals) evaluators which support fuzzy matching modes like `unordered` and `superset`.
 </Tip>
+
+## Use custom test matchers
+
+:::js
+`@langchain/core` ships custom vitest matchers that make structural assertions more readable and produce clear error messages on failure. Register them once in a setup file and they become available on every `expect()` call.
+
+### Set up
+
+Add a vitest setup file that extends `expect` with the LangChain matchers:
+
+```ts vitest.setup.ts
+import { langchainMatchers } from "@langchain/core/testing";
+
+expect.extend(langchainMatchers);
+```
+
+Reference it in your vitest config:
+
+```ts vitest.config.ts
+export default defineConfig({
+  test: {
+    setupFiles: ["vitest.setup.ts"],
+  },
+});
+```
+
+TypeScript types are included automatically — no extra configuration needed for autocomplete.
+
+### Check message types
+
+Each message class has a corresponding matcher: `toBeHumanMessage()`, `toBeAIMessage()`, `toBeSystemMessage()`, and `toBeToolMessage()`. Call without arguments to check only the type, or pass a string to also match content:
+
+```ts
+const response = await agent.invoke({
+  messages: [new HumanMessage("What's the weather?")]
+});
+const lastMessage = response.messages.at(-1);
+
+expect(lastMessage).toBeAIMessage();
+expect(lastMessage).toBeAIMessage("It's 72°F and sunny.");
+```
+
+Pass an object to match specific fields:
+
+```ts
+expect(lastMessage).toBeAIMessage({ name: "weather-bot" });
+expect(toolMsg).toBeToolMessage({ tool_call_id: "call_1" });
+```
+
+### Assert on tool calls
+
+Three matchers cover tool call assertions on an `AIMessage`:
+
+```ts
+const response = await agent.invoke({
+  messages: [new HumanMessage("Weather in SF and NYC?")]
+});
+const aiMsg = response.messages.find(
+  (m) => m._getType() === "ai" && m.tool_calls?.length
+);
+
+// Check that specific tool calls are present (order-independent)
+expect(aiMsg).toHaveToolCalls([
+  { name: "get_weather", args: { city: "San Francisco" } },
+  { name: "get_weather", args: { city: "New York" } },
+]);
+
+// Check only the count
+expect(aiMsg).toHaveToolCallCount(2);
+
+// Check that at least one tool call matches (supports .not)
+expect(aiMsg).toContainToolCall({ name: "get_weather" });
+expect(aiMsg).not.toContainToolCall({ name: "send_email" });
+```
+
+### Assert on tool messages
+
+`toHaveToolMessages()` takes the full message array and checks the `ToolMessage` instances within it, in order:
+
+```ts
+expect(response.messages).toHaveToolMessages([
+  { content: "72°F and sunny in San Francisco" },
+  { content: "68°F and cloudy in New York" },
+]);
+```
+
+### Assert on interrupts and structured responses
+
+`toHaveBeenInterrupted()` checks for a `__interrupt__` field in a [LangGraph interrupt](/oss/langchain/human-in-the-loop) result. Pass a value to match the interrupt payload:
+
+```ts
+const result = await graph.invoke(input);
+
+expect(result).toHaveBeenInterrupted();
+expect(result).toHaveBeenInterrupted("confirm_action");
+```
+
+`toHaveStructuredResponse()` checks for a `structuredResponse` field on the result. Pass an object to match specific fields:
+
+```ts
+expect(result).toHaveStructuredResponse();
+expect(result).toHaveStructuredResponse({ name: "Alice", age: 30 });
+```
+
+### Matcher reference
+
+| Matcher | Description |
+| --- | --- |
+| `toBeHumanMessage(expected?)` | Check that the value is a `HumanMessage`. Optionally match content (string) or fields (object). |
+| `toBeAIMessage(expected?)` | Check that the value is an `AIMessage`. Optionally match content or fields. |
+| `toBeSystemMessage(expected?)` | Check that the value is a `SystemMessage`. Optionally match content or fields. |
+| `toBeToolMessage(expected?)` | Check that the value is a `ToolMessage`. Optionally match content or fields like `tool_call_id`. |
+| `toHaveToolCalls(expected)` | Check that an `AIMessage` has exactly the given tool calls (order-independent). |
+| `toHaveToolCallCount(n)` | Check that an `AIMessage` has exactly `n` tool calls. |
+| `toContainToolCall(expected)` | Check that an `AIMessage` contains at least one matching tool call. Supports `.not`. |
+| `toHaveToolMessages(expected)` | Check that a message array contains the given `ToolMessage` instances, in order. |
+| `toHaveBeenInterrupted(value?)` | Check that a result has an `__interrupt__`. Optionally match the interrupt value. |
+| `toHaveStructuredResponse(expected?)` | Check that a result has a `structuredResponse`. Optionally match specific fields. |
+
+:::
 
 ## Reduce cost and latency
 
