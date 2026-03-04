@@ -5,10 +5,12 @@ all: help
 
 dev:
 	@echo "Starting development mode..."
+	npm install
 	PYTHONPATH=$(CURDIR) uv run pipeline dev
 
 build:
 	@echo "Building documentation..."
+	npm install
 	PYTHONPATH=$(CURDIR) uv run pipeline build
 
 # Define a variable for the test file path.
@@ -55,6 +57,7 @@ test:
 install:
 	@echo "Installing all dependencies"
 	uv sync --all-groups
+	npm install
 	npm install -g mint@latest
 
 clean:
