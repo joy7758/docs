@@ -9,7 +9,7 @@ Unit tests exercise small, deterministic pieces of your agent in isolation. By r
 
 ## Mock chat model
 
-LangChain provides [`GenericFakeChatModel`](https://python.langchain.com/api_reference/core/language_models/langchain_core.language_models.fake_chat_models.GenericFakeChatModel.html) for mocking text responses. It accepts an iterator of responses (AIMessages or strings) and returns one per invocation. It supports both regular and streaming usage.
+LangChain provides @[`GenericFakeChatModel`] for mocking text responses. It accepts an iterator of responses (@[`AIMessage`] objects or strings) and returns one per invocation. It supports both regular and streaming usage.
 
 ```python
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
@@ -61,7 +61,7 @@ agent.invoke(
 
 ## Mock chat model with `fakeModel`
 
-`fakeModel()` is a builder-style fake chat model that lets you script exact responses (text, tool calls, errors) and assert what the model received. It extends `BaseChatModel`, so it works anywhere a real model is expected.
+`fakeModel()` is a builder-style fake chat model that lets you script exact responses (text, tool calls, errors) and assert what the model received. It extends @[`BaseChatModel`], so it works anywhere a real model is expected.
 
 ```bash
 npm install @langchain/core
@@ -149,7 +149,7 @@ model.respondWithTools([  // [!code highlight]
 The `id` field is optional. If omitted, a unique ID is auto-generated.
 
 <Tip>
-`.respond()` and `.respondWithTools()` can be mixed freely in any order. This is particularly useful for testing agentic loops where the model alternates between tool calls and text responses.
+    `.respond()` and `.respondWithTools()` can be mixed freely in any order. This is particularly useful for testing agentic loops where the model alternates between tool calls and text responses.
 </Tip>
 
 ### Simulate errors
@@ -227,7 +227,7 @@ await model.invoke([new HumanMessage("forbidden topic")]); // throws "Content po
 ```
 
 <Note>
-Each factory function is a single queue entry, consumed once. To reuse the same dynamic logic for multiple turns, queue multiple factory entries.
+    Each factory function is a single queue entry, consumed once. To reuse the same dynamic logic for multiple turns, queue multiple factory entries.
 </Note>
 
 ### Structured output

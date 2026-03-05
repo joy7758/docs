@@ -155,7 +155,7 @@ test.skipIf(!process.env.OPENAI_API_KEY)(
 :::
 
 <Warning>
-Add `.env` to your `.gitignore` to avoid committing credentials. In CI, inject secrets through your provider's secrets management (e.g., GitHub Actions secrets).
+    Add `.env` to your `.gitignore` to avoid committing credentials. In CI, inject secrets through your provider's secrets management (e.g., GitHub Actions secrets).
 </Warning>
 
 ## Assert on structure, not content
@@ -204,7 +204,7 @@ This example uses [custom test matchers](#use-custom-test-matchers). See the sec
 :::
 
 <Tip>
-For more rigorous trajectory assertions, use the [AgentEvals](/oss/langchain/test/evals) evaluators which support fuzzy matching modes like `unordered` and `superset`.
+    For more rigorous trajectory assertions, use the [AgentEvals](/oss/langchain/test/evals) evaluators which support fuzzy matching modes like `unordered` and `superset`.
 </Tip>
 
 ## Use custom test matchers
@@ -401,7 +401,7 @@ addopts = "--record-mode=once"
 </CodeGroup>
 
 <Info>
-The `--record-mode=once` option records HTTP interactions on the first run and replays them on subsequent runs.
+    The `--record-mode=once` option records HTTP interactions on the first run and replays them on subsequent runs.
 </Info>
 
 Decorate your tests with the `vcr` marker:
@@ -424,6 +424,6 @@ def test_agent_trajectory():
 The first run makes real network calls and generates a cassette file in `tests/cassettes/`. Subsequent runs replay the recorded responses.
 
 <Warning>
-When you modify prompts, add new tools, or change expected trajectories, your saved cassettes will become outdated and your existing tests **will fail**. Delete the corresponding cassette files and rerun the tests to record fresh interactions.
+    When you modify prompts, add new tools, or change expected trajectories, your saved cassettes will become outdated and your existing tests **will fail**. Delete the corresponding cassette files and rerun the tests to record fresh interactions.
 </Warning>
 :::
