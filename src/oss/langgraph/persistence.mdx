@@ -556,7 +556,7 @@ const interrupted = history.find(
 
 ### Replay
 
-Replay re-executes steps from a prior checkpoint. Invoke the graph with a prior `checkpoint_id` to re-play steps before that checkpoint and execute steps after it. During replay, cached pending writes are used — nodes that already ran are skipped, and [interrupts](/oss/langgraph/interrupts) use cached resume values instead of re-triggering.
+Replay re-executes steps from a prior checkpoint. Invoke the graph with a prior `checkpoint_id` to re-run nodes after that checkpoint. Nodes before the checkpoint are skipped (their results are already saved). Nodes after the checkpoint re-execute, including any LLM calls, API requests, or [interrupts](/oss/langgraph/interrupts) — which are always re-triggered during replay.
 
 See [Time travel](/oss/langgraph/use-time-travel) for full details and code examples on replaying past executions.
 
