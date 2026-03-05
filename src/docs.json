@@ -183,7 +183,8 @@
                     "langsmith/billing",
                     "langsmith/granular-usage",
                     "langsmith/set-up-resource-tags",
-                    "langsmith/user-management"
+                    "langsmith/user-management",
+                    "langsmith/model-configurations"
                   ]
                 },
                 {
