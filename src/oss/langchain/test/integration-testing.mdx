@@ -264,7 +264,7 @@ const response = await agent.invoke({
   messages: [new HumanMessage("Weather in SF and NYC?")]
 });
 const aiMsg = response.messages.find(
-  (m) => m._getType() === "ai" && m.tool_calls?.length
+  (m) => AIMessage.isInstance(m) && m.tool_calls?.length
 );
 
 // Check that specific tool calls are present (order-independent)
