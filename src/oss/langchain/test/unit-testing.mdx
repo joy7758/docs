@@ -3,7 +3,7 @@ title: Unit testing
 description: Test agent logic without API calls using fake chat models and in-memory persistence.
 ---
 
-Unit tests exercise small, deterministic pieces of your agent in isolation. By replacing the real LLM with an in-memory fake, you can script exact responses — text, tool calls, and errors — so tests are fast, free, and repeatable without API keys.
+Unit tests exercise small, deterministic pieces of your agent in isolation. By replacing the real LLM with an in-memory fake, you can script exact responses (text, tool calls, and errors) so tests are fast, free, and repeatable without API keys.
 
 :::python
 
@@ -327,9 +327,7 @@ console.log(r2.content); // "The weather is sunny."
 console.log(model.callCount); // 2
 ```
 
-### Full example: test a tool-calling agent with vitest
-
-The following is a complete test file that uses `fakeModel` to test a tool-calling agent loop end-to-end:
+<Accordion title="Full example: test a tool-calling agent with vitest">
 
 ```typescript
 import { describe, test, expect } from "vitest";
@@ -403,7 +401,11 @@ describe("weather agent", () => {
 });
 ```
 
+</Accordion>
+
 ### API reference
+
+See the [reference docs](https://reference.langchain.com/javascript/langchain-core/testing) for the full API.
 
 | Method | Description |
 | --- | --- |
@@ -420,3 +422,7 @@ describe("weather agent", () => {
 | `.callCount` | Number of times the model has been invoked. |
 
 :::
+
+## Next steps
+
+Learn how to test your agent with real LLM APIs in [Integration testing](/oss/langchain/test/integration-testing).

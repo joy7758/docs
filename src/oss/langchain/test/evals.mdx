@@ -3,7 +3,7 @@ title: Evals
 description: Evaluate agent trajectories using deterministic matching or LLM-as-judge evaluators with AgentEvals and LangSmith.
 ---
 
-Evaluations ("evals") measure how well your agent performs by assessing its execution trajectory — the sequence of messages and tool calls it produces. Unlike [integration tests](/oss/langchain/test/integration-testing) that verify basic correctness, evals score agent behavior against a reference or rubric, making them useful for catching regressions when you change prompts, tools, or models.
+Evaluations ("evals") measure how well your agent performs by assessing its execution trajectory, the sequence of messages and tool calls it produces. Unlike [integration tests](/oss/langchain/test/integration-testing) that verify basic correctness, evals score agent behavior against a reference or rubric, making them useful for catching regressions when you change prompts, tools, or models.
 
 An evaluator is a function that takes agent outputs (and optionally reference outputs) and returns a score:
 
@@ -70,7 +70,7 @@ AgentEvals offers the `createTrajectoryMatchEvaluator` function to match your ag
 | `subset` | Agent calls only tools from reference (no extras) | Ensuring agent doesn't exceed expected scope |
 | `superset` | Agent calls at least the reference tools (extras allowed) | Verifying minimum required actions are taken |
 
-The examples below share a common setup — an agent with a `get_weather` tool:
+The examples below share a common setup, an agent with a `get_weather` tool:
 
 :::python
 ```python
@@ -85,7 +85,7 @@ def get_weather(city: str):
     """Get weather information for a city."""
     return f"It's 75 degrees and sunny in {city}."
 
-agent = create_agent("gpt-4.1", tools=[get_weather])
+agent = create_agent("claude-sonnet-4-6", tools=[get_weather])
 ```
 :::
 
@@ -109,7 +109,7 @@ const getWeather = tool(
 );
 
 const agent = createAgent({
-  model: "gpt-4.1",
+  model: "claude-sonnet-4-6",
   tools: [getWeather],
 });
 ```
@@ -143,6 +143,11 @@ def test_weather_tool_called_strict():
         outputs=result["messages"],
         reference_outputs=reference_trajectory
     )
+    # {
+    #     'key': 'trajectory_strict_match',
+    #     'score': True,
+    #     'comment': None,
+    # }
     assert evaluation["score"] is True
 ```
 :::
@@ -186,7 +191,7 @@ async function testWeatherToolCalledStrict() {
 
 <Accordion title="Unordered match">
 
-The `unordered` mode allows the same tool calls in any order. This is helpful when you want to verify that specific information was retrieved but don't care about the sequence — for example, an agent that checks both weather and events for a city.
+The `unordered` mode allows the same tool calls in any order. This is helpful when you want to verify that specific information was retrieved but don't care about the sequence. For example, an agent that checks both weather and events for a city with different tool calls.
 
 :::python
 ```python
@@ -195,7 +200,7 @@ def get_events(city: str):
     """Get events happening in a city."""
     return f"Concert at the park in {city} tonight."
 
-agent = create_agent("gpt-4.1", tools=[get_weather, get_events])
+agent = create_agent("claude-sonnet-4-6", tools=[get_weather, get_events])
 
 evaluator = create_trajectory_match_evaluator(  # [!code highlight]
     trajectory_match_mode="unordered",  # [!code highlight]
@@ -239,7 +244,7 @@ const getEvents = tool(
 );
 
 const agent = createAgent({
-  model: "gpt-4.1",
+  model: "claude-sonnet-4-6",
   tools: [getWeather, getEvents],
 });
 
@@ -294,7 +299,7 @@ def get_detailed_forecast(city: str):
     """Get detailed weather forecast for a city."""
     return f"Detailed forecast for {city}: sunny all week."
 
-agent = create_agent("gpt-4.1", tools=[get_weather, get_detailed_forecast])
+agent = create_agent("claude-sonnet-4-6", tools=[get_weather, get_detailed_forecast])
 
 evaluator = create_trajectory_match_evaluator(  # [!code highlight]
     trajectory_match_mode="superset",  # [!code highlight]
@@ -337,7 +342,7 @@ const getDetailedForecast = tool(
 );
 
 const agent = createAgent({
-  model: "gpt-4.1",
+  model: "claude-sonnet-4-6",
   tools: [getWeather, getDetailedForecast],
 });
 
@@ -705,3 +710,4 @@ await evaluate(
 To learn more about evaluating your agent, see the [LangSmith docs](/langsmith/vitest-jest).
 </Tip>
 :::
+
