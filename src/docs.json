@@ -177,40 +177,63 @@
                   "group": "Account administration",
                   "pages": [
                     "langsmith/administration-overview",
-                    "langsmith/set-up-hierarchy",
-                    "langsmith/workload-isolation",
-                    "langsmith/manage-organization-by-api",
-                    "langsmith/billing",
-                    "langsmith/granular-usage",
-                    "langsmith/set-up-resource-tags",
-                    "langsmith/user-management"
+                    {
+                      "group": "Workspace setup",
+                      "pages": [
+                        "langsmith/set-up-hierarchy",
+                        "langsmith/workload-isolation",
+                        "langsmith/set-up-resource-tags"
+                      ]
+                    },
+                    {
+                      "group": "Users & access control",
+                      "pages": [
+                        "langsmith/user-management",
+                        "langsmith/rbac",
+                        "langsmith/abac",
+                        "langsmith/organization-workspace-operations",
+                        "langsmith/authentication-methods",
+                        "langsmith/jit-invite-sso"
+                      ]
+                    },
+                    {
+                      "group": "Billing & usage",
+                      "pages": [
+                        "langsmith/billing",
+                        "langsmith/granular-usage"
+                      ]
+                    },
+                    "langsmith/manage-organization-by-api"
+                  ]
+                },
+                {
+                  "group": "Tools",
+                  "pages": [
+                    "langsmith/polly",
+                    "langsmith/langsmith-cli",
+                    "langsmith/skills"
                   ]
                 },
                 {
                   "group": "Additional resources",
                   "pages": [
-                    "langsmith/polly",
                     {
-                      "group": "Data management",
+                      "group": "Data & compliance",
                       "pages": [
+                        "langsmith/shared-responsibility-model",
                         "langsmith/data-storage-and-privacy",
-                        "langsmith/data-purging-compliance"
+                        "langsmith/data-purging-compliance",
+                        "langsmith/scalability-and-resilience"
                       ]
                     },
                     {
-                       "group": "Access control & Authentication",
-                       "pages": [
-                        "langsmith/rbac",
-                        "langsmith/abac",
-                         "langsmith/organization-workspace-operations",
-                         "langsmith/authentication-methods",
-                         "langsmith/jit-invite-sso"
-                       ]
-                     },
-                    "langsmith/scalability-and-resilience",
-                    "langsmith/faq",
-                    "langsmith/regions-faq",
-                    "langsmith/pricing-faq",
+                      "group": "FAQ",
+                      "pages": [
+                        "langsmith/faq",
+                        "langsmith/regions-faq",
+                        "langsmith/pricing-faq"
+                      ]
+                    },
                     "langsmith/status"
                   ]
                 }
@@ -338,8 +361,6 @@
                     "langsmith/export-traces",
                     "langsmith/compare-traces",
                     "langsmith/share-trace",
-                    "langsmith/langsmith-fetch",
-                    "langsmith/langsmith-mcp-server",
                     "langsmith/platform-logs",
                     "langsmith/data-export"
                   ]
@@ -958,6 +979,7 @@
                     {
                       "group": "Core capabilities",
                       "pages": [
+                        "oss/python/deepagents/models",
                         "oss/python/deepagents/harness",
                         "oss/python/deepagents/backends",
                         "oss/python/deepagents/subagents",
@@ -984,7 +1006,9 @@
                       "group": "Command line interface",
                       "pages": [
                         "oss/python/deepagents/cli/overview",
-                        "oss/python/deepagents/cli/providers"
+                        "oss/python/deepagents/cli/providers",
+                        "oss/python/deepagents/cli/configuration",
+                        "oss/python/deepagents/cli/mcp-tools"
                       ]
                     }
                   ]
@@ -1339,6 +1363,7 @@
                     {
                       "group": "Core capabilities",
                       "pages": [
+                        "oss/javascript/deepagents/models",
                         "oss/javascript/deepagents/harness",
                         "oss/javascript/deepagents/backends",
                         "oss/javascript/deepagents/subagents",
@@ -1754,6 +1779,18 @@
       "destination": "/"
     },
     {
+      "source": "/langsmith/architectural-overview",
+      "destination": "/langsmith/self-hosted"
+    },
+    {
+      "source": "/langsmith/langsmith-fetch",
+      "destination": "/langsmith/langsmith-cli"
+    },
+    {
+      "source": "/langsmith/langsmith-mcp-server",
+      "destination": "/langsmith/langsmith-cli"
+    },
+    {
       "source": "/langsmith/api-v1-v2-overview",
       "destination": "/langsmith/trace-with-api"
     },
@@ -1792,6 +1829,18 @@
     {
       "source": "/oss/langchain/agents",
       "destination": "/oss/python/langchain/agents"
+    },
+    {
+      "source": "/langchain-academy",
+      "destination": "https://academy.langchain.com/"
+    },
+    {
+      "source": "/oss/langchain/academy2",
+      "destination": "https://academy.langchain.com/"
+    },
+    {
+      "source": "/oss/langchain/academy3",
+      "destination": "https://academy.langchain.com/"
     },
     {
       "source": "/langgraph",
