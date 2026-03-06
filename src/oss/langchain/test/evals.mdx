@@ -98,7 +98,7 @@ import { createTrajectoryMatchEvaluator } from "agentevals";
 import * as z from "zod";
 
 const getWeather = tool(
-  async ({ city }: { city: string }) => {
+  async ({ city }) => {
     return `It's 75 degrees and sunny in ${city}.`;
   },
   {
