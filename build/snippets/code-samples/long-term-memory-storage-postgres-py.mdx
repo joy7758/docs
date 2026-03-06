@@ -1,0 +1,30 @@
+```python
+from langgraph.store.postgres import PostgresStore
+
+def embed(texts: list[str]) -> list[list[float]]:
+    # Replace with an actual embedding function or LangChain embeddings object
+    return [[1.0, 2.0] * len(texts)]
+
+DB_URI = "postgresql://postgres:postgres@localhost:5442/postgres?sslmode=disable"
+with PostgresStore.from_conn_string(
+    DB_URI, index={"embed": embed, "dims": 2}
+) as store:
+    user_id = "my-user"
+    application_context = "chitchat"
+    namespace = (user_id, application_context)
+    store.put(
+        namespace,
+        "a-memory",
+        {
+            "rules": [
+                "User likes short, direct language",
+                "User only speaks English & python",
+            ],
+            "my-key": "my-value",
+        },
+    )
+    item = store.get(namespace, "a-memory")
+    items = store.search(
+        namespace, filter={"my-key": "my-value"}, query="language preferences"
+    )
+```
