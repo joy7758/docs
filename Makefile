@@ -1,4 +1,4 @@
-.PHONY: all dev build format lint test install clean lint_md lint_md_fix broken-links build-references preview-references format-check code-snippets test-code-samples
+.PHONY: all dev build format lint test install clean lint_md lint_md_fix lint_prose broken-links build-references preview-references format-check code-snippets test-code-samples
 
 # Default target
 all: help
@@ -46,6 +46,15 @@ lint_md_fix:
 		find src -name "*.md" -o -name "*.mdx" | xargs markdownlint --fix; \
 	else \
 		echo "markdownlint not found. Install with: npm install -g markdownlint-cli or VSCode extension"; \
+		exit 1; \
+	fi
+
+lint_prose:
+	@echo "Linting prose with Vale..."
+	@if command -v vale >/dev/null 2>&1; then \
+		vale src/; \
+	else \
+		echo "vale not found. Install with: brew install vale or see https://vale.sh/docs/install"; \
 		exit 1; \
 	fi
 
@@ -138,6 +147,7 @@ help:
 	@echo "  make lint               - Lint code"
 	@echo "  make lint_md            - Lint markdown files"
 	@echo "  make lint_md_fix        - Lint and fix markdown files"
+	@echo "  make lint_prose         - Lint prose with Vale (terminology, style)"
 	@echo "  make test               - Run tests"
 	@echo "  make install            - Install dependencies"
 	@echo "  make code-snippets      - Extract code snippets with Bluehawk"
