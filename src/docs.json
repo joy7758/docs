@@ -839,8 +839,7 @@
                       "group": "Self-hosted observability",
                       "pages": [
                         "langsmith/export-backend",
-                        "langsmith/langsmith-collector",
-                        "langsmith/observability-stack"
+                        "langsmith/langsmith-collector"
                       ]
                     },
                     {
