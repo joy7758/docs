@@ -89,6 +89,52 @@ rss: true
 **Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
 </Update>
 
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-observability-0.2.0
+
+- Improved UI with async sandbox creation and status polling, enhancing user experience.
+- Enhanced experiment comparison with JSON/YAML syntax highlighting.
+- Improved thread trace open behavior by removing the expand button.
+- Resolved a bug in insights agent that was not persisting categories.
+- Fixed bulk exports stuck in CREATED status to improve reliability.
+- Increased max tags displayed in the RunTags component in the frontend.
+- Improved logo size in the sidebar for better visibility.
+- Resolved issues in the backend concerning personal access tokens to enhance performance.
+- Enhanced playground with support for GPT-5.4 and GPT-5.4-pro models.
+- Made GPT-5.4 the default model in the OpenAI playground.
+- Added models and prompts columns to the experiments table for better data visualization.
+- Fixed image preview issues with large attachments to improve user experience.
+- Introduced sticky headers for new messages to enhance readability.
+- Redesigned the custom chart CRUD UI for a more intuitive user interface.
+- Added filtering and grouping by prompts in the experiments table for improved data analysis.
+- Resolved AWS IAM role support issues for agent builder, Polly, and insights.
+- Fixed bugs in the Agent Builder to enhance its reliability and performance.
+
+**Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
+</Update>
+
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-auth-proxy-0.0.2
+
+- Fixed multiple security alerts in the frontend and backend, enhancing overall system security.
+- Fixed a security vulnerability preventing XSS attacks via unescaped URLs in the RichTextEditor.
+- Improved self-hosted playground functionality, ensuring better reliability.
+
+**Download the Helm chart:** [`langsmith-auth-proxy-0.0.2.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-auth-proxy-0.0.2/langsmith-auth-proxy-0.0.2.tgz)
+</Update>
+
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-0.13.23
+
+- Fixed security vulnerabilities in the smith-frontend and smith-polly components.
+- Addressed a code injection vulnerability to enhance application security.
+- Restricted the --allow-run command to only the deno binary in smith-ace for improved security.
+- Prevented XSS in the frontend by ensuring URLs in the RichTextEditor are properly escaped.
+- Fixed Playground functionality issues in self-hosted environments.
+
+**Download the Helm chart:** [`langsmith-0.13.23.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-0.13.23/langsmith-0.13.23.tgz)
+</Update>
+
 <Update label="2026-03-06" tags={["self-hosted"]} rss={{ title: "2026-03-06 - self-hosted" }}>
 ## langsmith-0.13.21
 
