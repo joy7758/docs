@@ -63,6 +63,32 @@ rss: true
 **Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
 </Update>
 
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-observability-0.2.0
+
+- Fixed an insights agent bug that was not persisting categories.
+- Updated the UI for async sandbox creation with status polling.
+- Made the logo bigger in the sidebar.
+- Added JSON/YAML syntax highlighting to experiment comparisons.
+- Improved thread trace open behavior and removed the expand button.
+- Eliminated n+1 query in list personal access tokens for the organization.
+- Added a sandbox endpoint to smith-go.
+- Supported OpenAI compatible endpoint in smith-polly.
+- Timed out bulk exports stuck in CREATED status.
+- Allowed service identity access to create repo endpoint.
+- Recorded hub prompt commit in experiment session metadata in the playground.
+- Added models and prompts columns to the experiments table.
+- Increased maximum tags displayed in the RunTags component.
+- Added gpt-5.4 and gpt-5.4-pro model pricing and playground support.
+- Made gpt-5.4 the default OpenAI playground model.
+- Added support for AWS IAM role in agent builder, polly, and insights.
+- Redesigned custom chart CRUD UI.
+- Added functionality to filter and group by prompt in the experiments table.
+- Updated inbox counts and thread fetching logic in the agent builder.
+
+**Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
+</Update>
+
 <Update label="2026-03-06" tags={["self-hosted"]} rss={{ title: "2026-03-06 - self-hosted" }}>
 ## langsmith-0.13.21
 
