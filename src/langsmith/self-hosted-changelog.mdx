@@ -34,6 +34,35 @@ rss: true
 **Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
 </Update>
 
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-observability-0.2.0
+
+- Fixed an insights agent bug that was not persisting categories.
+- Improved the UI for async sandbox creation with status polling.
+- Added JSON/YAML syntax highlighting to the experiment comparison feature.
+- Improved thread trace open behavior and removed the expand button in the frontend.
+- Added a new sandbox endpoint to smith-go.
+- Supported OpenAI-compatible endpoints for smith-polly.
+- Fixed the timeout issue with bulk exports stuck in CREATED status.
+- Allowed service identity access to create repo endpoint.
+- Recorded hub prompt commit in experiment session metadata in the playground.
+- Improved authorization for the `/sessions` shadow query.
+- Added new ABAC backend deployments (v2) for better security management.
+- Implemented projects and runs write permissions in the UI.
+- Added support for GPT-5.4 and GPT-5.4-pro models, including pricing and playground integration.
+- Made GPT-5.4 the default model for the OpenAI playground.
+- Increased the maximum number of tags displayed in the RunTags component.
+- Fixed an agent builder issue where runs were rejected when limits changed.
+- Resolved float errors in the /sessions go endpoint.
+- Ensured Redis cache returns fetched value when cache SET fails.
+- Supported AWS IAM roles for the agent builder, polly, and insights integration.
+- Improved the custom chart CRUD interface on the frontend.
+- Added the ability to filter and group experiments by prompt in the experiments table.
+- Updated inbox counts and thread fetching logic in the agent builder.
+
+**Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
+</Update>
+
 <Update label="2026-03-06" tags={["self-hosted"]} rss={{ title: "2026-03-06 - self-hosted" }}>
 ## langsmith-0.13.21
 
