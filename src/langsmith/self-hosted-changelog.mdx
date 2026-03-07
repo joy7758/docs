@@ -10,6 +10,30 @@ rss: true
 
 [Self-hosted LangSmith](/langsmith/self-hosted) is an add-on to the Enterprise plan designed for our largest, most security-conscious customers. For more details, refer to [Pricing](https://www.langchain.com/pricing). [Contact our sales team](https://www.langchain.com/contact-sales) if you want to get a license key to trial LangSmith in your environment.
 
+<Update label="2026-03-07" tags={["self-hosted"]}>
+## langsmith-observability-0.2.0
+
+- Implemented async sandbox creation UI with status polling to improve user workflow.
+- Enhanced experiment comparison with JSON/YAML syntax highlighting for better readability.
+- Improved thread trace open behavior by removing the expand button for a cleaner UI.
+- Introduced sandbox endpoint in smith-go to expand sandbox capabilities.
+- Updated backend to eliminate n+1 query in list_personal_access_tokens_for_org for better performance.
+- Supported OpenAI compatible endpoint in smith-polly for broader integration options.
+- Timeouts for bulk exports stuck in CREATED status to prevent process hanging.
+- Made gpt-5.4 the default OpenAI playground model to highlight the new version.
+- Added gpt-5.4 and gpt-5.4-pro model support in the playground for enhanced capabilities.
+- Enhanced the experiments table with models and prompts columns for better data organization.
+- Redesigned custom chart CRUD for an improved user experience.
+- Added filtering and grouping by prompt in the experiments table to streamline data handling.
+- Addressed agent builder runs rejection issue when limits change for better process control.
+- AWS IAM role support added for agent builder, polly, and insights to enhance security and integration.
+- Introduced ABAC-based UI project and run write permissions for refined access control.
+- Implemented sticky headers on new messages for better usability.
+- Updated agent builder with improved inbox counts and thread fetching logic for better message management.
+
+**Download the Helm chart:** [`langsmith-observability-0.2.0.tgz`](https://github.com/langchain-ai/helm/releases/download/langsmith-observability-0.2.0/langsmith-observability-0.2.0.tgz)
+</Update>
+
 <Update label="2026-03-06" tags={["self-hosted"]} rss={{ title: "2026-03-06 - self-hosted" }}>
 ## langsmith-0.13.21
 
