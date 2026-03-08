@@ -2151,6 +2151,14 @@
       "destination": "/oss/javascript/langchain/middleware/overview"
     },
     {
+      "source": "/oss/python/integrations/middleware/langchain_pop",
+      "destination": "/oss/python/integrations/middleware/langchain-pop"
+    },
+    {
+      "source": "/oss/integrations/middleware/langchain_pop",
+      "destination": "/oss/integrations/middleware/langchain-pop"
+    },
+    {
       "source": "/oss/python/langchain/streaming",
       "destination": "/oss/python/langchain/streaming/overview"
     },
