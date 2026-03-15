@@ -8,7 +8,6 @@ import os
 import time
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parents[1]
 INPUT_PATH = BASE_DIR / "input" / "dpp_object.json"
 OUTPUT_DIR = BASE_DIR / "output"
@@ -107,7 +106,7 @@ def main() -> None:
     write_json(OUTPUT_DIR / "agent_result.json", agent_result)
     print("EXECUTION_OK", flush=True)
     pause(1.5)
-    print("", flush=True)
+    print(flush=True)
     print("Generating evidence bundle...", flush=True)
     pause(3.0)
     write_json(OUTPUT_DIR / "aro_audit_record.json", aro_audit_record)

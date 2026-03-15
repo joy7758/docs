@@ -9,7 +9,6 @@ import sys
 import time
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parents[1]
 MVK_INPUT_PATH = BASE_DIR / "output" / "mvk_input.json"
 DELAY_SCALE = max(0.0, float(os.environ.get("DEMO_DELAY_SCALE", "1.0")))

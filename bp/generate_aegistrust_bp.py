@@ -14,7 +14,6 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-
 ACCOUNT = "joy7758"
 API_ROOT = "https://api.github.com"
 SCRIPT_PATH = Path(__file__).resolve()

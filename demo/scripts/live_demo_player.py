@@ -12,9 +12,8 @@ import sys
 import textwrap
 import threading
 import time
-from typing import TextIO
 from pathlib import Path
-
+from typing import TextIO
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 INPUT_PATH = BASE_DIR / "input" / "dpp_object.json"
