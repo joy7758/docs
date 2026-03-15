@@ -30,7 +30,10 @@ def main() -> int:
 
     print("=== VERIFYING ===", flush=True)
     pause(4.0)
-    if computed_hash == mvk_input["bundle_hash"] and mvk_input["expected_result"] == "REPLAY_PASS":
+    if (
+        computed_hash == mvk_input["bundle_hash"]
+        and mvk_input["expected_result"] == "REPLAY_PASS"
+    ):
         print("REPLAY_PASS", flush=True)
         return 0
 

@@ -22,7 +22,9 @@ OUTPUT_DIR = SCRIPT_PATH.parent
 WORKSPACE_ROOT = OUTPUT_DIR.parents[1]
 NOW_UTC = datetime.now(UTC)
 REPO_CACHE = OUTPUT_DIR / "repo_snapshot_cache.json"
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_PAT")
+GITHUB_TOKEN = (
+    os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN") or os.getenv("GITHUB_PAT")
+)
 
 LOCAL_NAME_MAP = {
     "ToolAgents-ei": "ToolAgents",
@@ -142,7 +144,10 @@ PRIMARY_REPOS = {
         ],
         "smoke": {
             "cmd": ["bash", "quickstart/run.sh"],
-            "success_markers": ["=== DONE: Quickstart OK ===", "VERIFY_OK: full chain valid"],
+            "success_markers": [
+                "=== DONE: Quickstart OK ===",
+                "VERIFY_OK: full chain valid",
+            ],
             "timeout": 120,
         },
     },
@@ -443,11 +448,15 @@ def smoke_check(name: str, config: dict[str, Any]) -> dict[str, Any]:
             "command": shell_join(command),
         }
 
-    combined = "\n".join(part for part in [result.stdout, result.stderr] if part).strip()
+    combined = "\n".join(
+        part for part in [result.stdout, result.stderr] if part
+    ).strip()
     markers = config.get("success_markers", [])
     ok = result.returncode == 0 and all(marker in combined for marker in markers)
     summary_line = ""
-    for line in reversed([line.strip() for line in combined.splitlines() if line.strip()]):
+    for line in reversed(
+        [line.strip() for line in combined.splitlines() if line.strip()]
+    ):
         summary_line = line
         break
     return {
@@ -477,7 +486,9 @@ def fetch_all_repos() -> tuple[list[dict[str, Any]], str]:
         if REPO_CACHE.exists():
             return json.loads(REPO_CACHE.read_text(encoding="utf-8")), "repo_cache"
         return scan_local_repos(), "local_scan"
-    REPO_CACHE.write_text(json.dumps(repos, ensure_ascii=False, indent=2), encoding="utf-8")
+    REPO_CACHE.write_text(
+        json.dumps(repos, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
     return repos, "github_api"
 
 
@@ -590,8 +601,14 @@ def collect_context(
         repos, source_mode = fetch_all_repos()
     repo_index = {repo["name"]: repo for repo in repos}
     relevant_names = set(PRIMARY_REPOS) | set(SUPPORTING_REPOS)
-    commits = {name: fetch_commits(name) for name in relevant_names if name in repo_index}
-    releases = {name: fetch_latest_release(name) for name in relevant_names if name in repo_index}
+    commits = {
+        name: fetch_commits(name) for name in relevant_names if name in repo_index
+    }
+    releases = {
+        name: fetch_latest_release(name)
+        for name in relevant_names
+        if name in repo_index
+    }
 
     repo_rows: list[dict[str, Any]] = []
     languages = Counter()
@@ -669,7 +686,8 @@ def build_account_snapshot(ctx: dict[str, Any]) -> str:
     if ctx.get("source_mode") in {"local_scan", "local_fallback"}:
         star_text = "本地模式不统计"
     language_text = ", ".join(
-        f"{language} ({count})" for language, count in ctx["language_counts"].most_common(6)
+        f"{language} ({count})"
+        for language, count in ctx["language_counts"].most_common(6)
     )
     layer_text = ", ".join(
         f"{LAYER_LABELS.get(layer, layer)}: {ctx['layer_counts'][layer]}"
@@ -700,7 +718,12 @@ def core_table(ctx: dict[str, Any]) -> str:
         "| 模块 | 主仓库 | 最近代码提交 | 最近版本 | 本地回放 | 当前状态 |",
         "| --- | --- | --- | --- | --- | --- |",
     ]
-    for name in ["god-spear", "safety-valve-spec", "execution-integrity-core", "aro-audit"]:
+    for name in [
+        "god-spear",
+        "safety-valve-spec",
+        "execution-integrity-core",
+        "aro-audit",
+    ]:
         repo = ctx["repo_index"][name]
         commit = ctx["commits"].get(name, [{}])[0] if ctx["commits"].get(name) else {}
         release = ctx["releases"].get(name) or "none"
@@ -736,10 +759,13 @@ def render_repo_detail(name: str, ctx: dict[str, Any]) -> str:
             f"- 本地回放（{fmt_dt(smoke['ran_at'])}）：{status}，命令 `{smoke['command']}`\n"
             f"- 关键输出：`{smoke['summary']}`"
         )
-    commit_lines = "\n".join(
-        f"  - {fmt_day(item['date'])} `{item['sha']}` {item['message']}"
-        for item in commit_items
-    ) or "  - 暂未拿到提交信息。"
+    commit_lines = (
+        "\n".join(
+            f"  - {fmt_day(item['date'])} `{item['sha']}` {item['message']}"
+            for item in commit_items
+        )
+        or "  - 暂未拿到提交信息。"
+    )
     capabilities = "\n".join(f"- {item}" for item in meta["capabilities"])
     validation = "\n".join(f"- {item}" for item in meta["validation"])
     signal_line = (
@@ -787,7 +813,9 @@ def build_supporting_layers(ctx: dict[str, Any]) -> str:
             repo = ctx["repo_index"][name]
             release = ctx["releases"].get(name) or "none"
             note = SUPPORTING_REPOS[name]["role"]
-            commit = ctx["commits"].get(name, [{}])[0] if ctx["commits"].get(name) else {}
+            commit = (
+                ctx["commits"].get(name, [{}])[0] if ctx["commits"].get(name) else {}
+            )
             lines.append(
                 f"- [{name}]({repo['html_url']}): {note} 最近提交 {fmt_day(commit.get('date'))}，最近版本 {release}。"
             )
@@ -812,7 +840,13 @@ def build_full_inventory(ctx: dict[str, Any]) -> str:
 
 def build_github_progress_report(ctx: dict[str, Any]) -> str:
     smoke_lines = []
-    for name in ["god-spear", "safety-valve-spec", "execution-integrity-core", "aro-audit", "verifiable-agent-demo"]:
+    for name in [
+        "god-spear",
+        "safety-valve-spec",
+        "execution-integrity-core",
+        "aro-audit",
+        "verifiable-agent-demo",
+    ]:
         smoke = ctx["smoke_results"].get(name)
         if not smoke:
             continue
@@ -890,8 +924,9 @@ def build_technical_progress(ctx: dict[str, Any]) -> str:
     repo = ctx["repo_index"]
     smoke = ctx["smoke_results"]
     release = ctx["releases"]
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 技术进展说明
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -932,11 +967,11 @@ def build_technical_progress(ctx: dict[str, Any]) -> str:
 
         当前已经不是“只有 README 和架构图”的阶段，而是关键链路都能直接复跑：
 
-        - `god-spear`：结果 `{('PASS' if smoke.get('god-spear', {}).get('ok') else 'not-run')}`，输出 `STATUS: PASS`
-        - `safety-valve-spec`：结果 `{('PASS' if smoke.get('safety-valve-spec', {}).get('ok') else 'not-run')}`，输出 `Overall: PASS`，说明规范和实现是对得上的
-        - `execution-integrity-core`：结果 `{('PASS' if smoke.get('execution-integrity-core', {}).get('ok') else 'not-run')}`，输出 `SELF_CHECK: PASS`，说明完整性证明能自证
-        - `aro-audit`：结果 `{('PASS' if smoke.get('aro-audit', {}).get('ok') else 'not-run')}`，正常样本 `VERIFY_OK`，篡改样本 `Merkle mismatch`，说明动过手脚就能被发现
-        - `verifiable-agent-demo`：结果 `{('PASS' if smoke.get('verifiable-agent-demo', {}).get('ok') else 'not-run')}`，可输出完整 `intent / action / result / audit_record`，也就是一次动作前后完整留痕
+        - `god-spear`：结果 `{("PASS" if smoke.get("god-spear", {}).get("ok") else "not-run")}`，输出 `STATUS: PASS`
+        - `safety-valve-spec`：结果 `{("PASS" if smoke.get("safety-valve-spec", {}).get("ok") else "not-run")}`，输出 `Overall: PASS`，说明规范和实现是对得上的
+        - `execution-integrity-core`：结果 `{("PASS" if smoke.get("execution-integrity-core", {}).get("ok") else "not-run")}`，输出 `SELF_CHECK: PASS`，说明完整性证明能自证
+        - `aro-audit`：结果 `{("PASS" if smoke.get("aro-audit", {}).get("ok") else "not-run")}`，正常样本 `VERIFY_OK`，篡改样本 `Merkle mismatch`，说明动过手脚就能被发现
+        - `verifiable-agent-demo`：结果 `{("PASS" if smoke.get("verifiable-agent-demo", {}).get("ok") else "not-run")}`，可输出完整 `intent / action / result / audit_record`，也就是一次动作前后完整留痕
 
         用人话说，AegisTrust 现在已经能证明三件事：能拦、能留证、能查出篡改。
 
@@ -945,7 +980,7 @@ def build_technical_progress(ctx: dict[str, Any]) -> str:
         - 当前本地仓库群共扫描到 {len(ctx["repos"])} 个仓库，其中最近 30 天有更新的仓库有 {ctx["active_30d"]} 个。
         - `god-spear`、`safety-valve-spec`、`aro-audit` 都已有公开版本；`aro-audit` 和 `persona-object-protocol` 还带 DOI / citation 资产。
         - 本地扫描显示 `spear-check` 已接入 {ctx["spear_adoption"]["count"]} 个仓库，说明这不是孤立 demo，而是在持续复用。
-        - `verifiable-agent-demo` 在 {fmt_day(repo['verifiable-agent-demo']['pushed_at'])} 仍有更新，说明跨层 demo 还在往前推进。
+        - `verifiable-agent-demo` 在 {fmt_day(repo["verifiable-agent-demo"]["pushed_at"])} 仍有更新，说明跨层 demo 还在往前推进。
 
         ## 5. 下一步重点
 
@@ -958,12 +993,15 @@ def build_technical_progress(ctx: dict[str, Any]) -> str:
 
         对外最合适的话术不是“我们做了很多协议”，而是“我们已经把 AI 高风险动作的问题，拆成可拦截、可留证、可复验的一条工程链”。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_architecture_summary(ctx: dict[str, Any]) -> str:
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 架构概述
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1021,12 +1059,15 @@ def build_architecture_summary(ctx: dict[str, Any]) -> str:
 
         所以最合适的表达是：**AegisTrust 是更大架构中的当前商业化切片，先聚焦 AI 可信执行闭环。**
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_policy_context(ctx: dict[str, Any]) -> str:
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 政策语境
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1091,15 +1132,18 @@ def build_policy_context(ctx: dict[str, Any]) -> str:
 
         这样写，既自然贴近地方生态，也保留了创业项目应有的商业气质。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_bp(ctx: dict[str, Any]) -> str:
     repo = ctx["repo_index"]
     smoke = ctx["smoke_results"]
     release = ctx["releases"]
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 路演稿
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1251,15 +1295,18 @@ def build_bp(ctx: dict[str, Any]) -> str:
 
         AegisTrust 真正有价值的地方，不是仓库数量，而是这些仓库正在收拢成一条清楚的产品线：当 AI 从“生成内容”进入“执行动作”，市场需要的是一层让关键动作可拦截、可留证、可复验的基础设施。AegisTrust 正在做的，就是这层基础设施。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_bp_v2(ctx: dict[str, Any]) -> str:
     repo = ctx["repo_index"]
     smoke = ctx["smoke_results"]
     release = ctx["releases"]
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 商业计划书 V2
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1407,7 +1454,9 @@ def build_bp_v2(ctx: dict[str, Any]) -> str:
 
         AegisTrust 的核心价值不在于仓库数量，而在于已经把 AI 高风险动作的问题拆成了一条可落地的工程链。当 AI 从“会说”进入“会做”，市场最终需要的不是更多口号，而是一层可信执行基础设施。AegisTrust 正在把这层基础设施做出来。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_competition_summary() -> str:
@@ -1427,8 +1476,9 @@ def build_competition_summary() -> str:
 def build_judge_view_diagnosis(ctx: dict[str, Any]) -> str:
     release = ctx["releases"]
     smoke = ctx["smoke_results"]
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 评委视角诊断
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1491,12 +1541,15 @@ def build_judge_view_diagnosis(ctx: dict[str, Any]) -> str:
         - 不要把早期项目包装成已经规模化商业成功。
         - 不要把政策表达写成表态，保持顺势而为即可。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_award_storyline(ctx: dict[str, Any]) -> str:
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 获奖级叙事母线
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1554,13 +1607,16 @@ def build_award_storyline(ctx: dict[str, Any]) -> str:
         - 技术深度只作为可信度支撑，不作为主舞台起点。
         - `POP` 和五层架构作为来源和长期延展，不与当前商业主线并列。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_bp_v4_award(ctx: dict[str, Any]) -> str:
     release = ctx["releases"]
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 商业计划书 V4（获奖叙事版）
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -1736,7 +1792,9 @@ def build_bp_v4_award(ctx: dict[str, Any]) -> str:
 
         当 AI 从“会说”进入“会做”，可信执行会逐步成为新的基础能力。AegisTrust 的价值不在于堆了多少仓库，而在于已经把高风险 AI 动作的问题拆成了一条可拦截、可留证、可复验的工程闭环。它还早，但方向对、结构对、证据也已经开始对齐。这正是一个值得被发现、被支持、被放大的项目应有的样子。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def build_slides(ctx: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1807,7 +1865,9 @@ def build_slides(ctx: dict[str, Any]) -> list[dict[str, Any]]:
                 "确定性导出：同一份数据，多次导出结果一致",
                 "人话就是：过程有没有被改，一查就知道",
             ],
-            "callout": smoke.get("execution-integrity-core", {}).get("summary", "SELF_CHECK: PASS"),
+            "callout": smoke.get("execution-integrity-core", {}).get(
+                "summary", "SELF_CHECK: PASS"
+            ),
         },
         {
             "title": "审计证据",
@@ -2366,16 +2426,46 @@ def build_pitch_pack(ctx: dict[str, Any]) -> str:
         "最后一页不要再扩展新信息，只重复一句主线：AegisTrust 做的是 AI 可信执行基础设施。感谢之后，给评委留下继续追问的空间。",
     ]
     qa_pairs = [
-        ("为什么不用普通日志平台？", "日志平台能回看，不一定能强证明。AegisTrust 强调的是门禁、动作收据、完整性和证据包的闭环，而不只是事后存档。"),
-        ("为什么不用提示词 guardrail？", "提示词 guardrail 更像在限制模型怎么说，不足以覆盖关键动作怎么做、做完以后怎么证明。"),
-        ("为什么你们不是一个安全功能，而是基础设施？", "因为这个问题跨模型、跨框架、跨场景都会反复出现。只要 AI 做高风险动作，组织就需要这层可信执行能力。"),
-        ("为什么现在是窗口期？", "因为企业对 AI 的关注点正在从能不能用，转向敢不敢放到真实流程里。这个阶段对可信执行的需求会快速增长。"),
-        ("项目还早，为什么现在值得投？", "因为核心结构已经搭出来，关键链路可回放，下一步最需要的是场景验证。这个阶段的支持最能放大增量。"),
-        ("谁会先付费？", "第一批更可能是 IT 运维、法务、财务、合规风控等高责任流程的组织，它们对内控、留痕和问责的需求最强。"),
-        ("最小可落地产品是什么？", "最小可落地组合是门禁检查加证据包，也就是先把高风险动作拦住，并把执行结果做成独立可复核材料。"),
-        ("你们怎么面对 AI 幻觉？", "不承诺消灭幻觉，而是控制幻觉后果。没有通过门禁、没有收据、没有进入证据链的动作，不进入可信交付路径。"),
-        ("POP 和大架构为什么不重点讲？", "它们证明长期深度，但当前比赛主线必须聚焦可信执行闭环，否则评委会记不住现在到底卖什么。"),
-        ("为什么北京适合落地？", "因为北京既有高密度 AI 和科研资源，也有高责任行业场景，更适合把早期试点、联合验证和生态合作一起做起来。"),
+        (
+            "为什么不用普通日志平台？",
+            "日志平台能回看，不一定能强证明。AegisTrust 强调的是门禁、动作收据、完整性和证据包的闭环，而不只是事后存档。",
+        ),
+        (
+            "为什么不用提示词 guardrail？",
+            "提示词 guardrail 更像在限制模型怎么说，不足以覆盖关键动作怎么做、做完以后怎么证明。",
+        ),
+        (
+            "为什么你们不是一个安全功能，而是基础设施？",
+            "因为这个问题跨模型、跨框架、跨场景都会反复出现。只要 AI 做高风险动作，组织就需要这层可信执行能力。",
+        ),
+        (
+            "为什么现在是窗口期？",
+            "因为企业对 AI 的关注点正在从能不能用，转向敢不敢放到真实流程里。这个阶段对可信执行的需求会快速增长。",
+        ),
+        (
+            "项目还早，为什么现在值得投？",
+            "因为核心结构已经搭出来，关键链路可回放，下一步最需要的是场景验证。这个阶段的支持最能放大增量。",
+        ),
+        (
+            "谁会先付费？",
+            "第一批更可能是 IT 运维、法务、财务、合规风控等高责任流程的组织，它们对内控、留痕和问责的需求最强。",
+        ),
+        (
+            "最小可落地产品是什么？",
+            "最小可落地组合是门禁检查加证据包，也就是先把高风险动作拦住，并把执行结果做成独立可复核材料。",
+        ),
+        (
+            "你们怎么面对 AI 幻觉？",
+            "不承诺消灭幻觉，而是控制幻觉后果。没有通过门禁、没有收据、没有进入证据链的动作，不进入可信交付路径。",
+        ),
+        (
+            "POP 和大架构为什么不重点讲？",
+            "它们证明长期深度，但当前比赛主线必须聚焦可信执行闭环，否则评委会记不住现在到底卖什么。",
+        ),
+        (
+            "为什么北京适合落地？",
+            "因为北京既有高密度 AI 和科研资源，也有高责任行业场景，更适合把早期试点、联合验证和生态合作一起做起来。",
+        ),
     ]
 
     lines = [
@@ -2423,7 +2513,11 @@ def build_pitch_pack(ctx: dict[str, Any]) -> str:
         "",
     ]
     for idx, slide in enumerate(slides, start=1):
-        note = note_text[idx - 1] if idx - 1 < len(note_text) else "这一页只做收束：重复主线，不扩新信息，把评委注意力带回“为什么这件事值得支持”。"
+        note = (
+            note_text[idx - 1]
+            if idx - 1 < len(note_text)
+            else "这一页只做收束：重复主线，不扩新信息，把评委注意力带回“为什么这件事值得支持”。"
+        )
         lines.extend(
             [
                 f"### Slide {idx:02d} · {slide['title']}",
@@ -2451,15 +2545,9 @@ def build_pitch_pack(ctx: dict[str, Any]) -> str:
 
 
 def build_application_form_short(ctx: dict[str, Any]) -> str:
-    version_150 = (
-        "AegisTrust 是一套 AI 可信执行基础设施，面向高风险 AI 动作场景。它解决的不是模型会不会回答问题，而是 AI 开始调工具、改配置、跑流程以后，企业怎么做到敢放权、能控风险、出了事说得清。项目通过门禁检查、动作收据和证据包三层能力，让关键动作可拦截、可留证、可复验。"
-    )
-    version_300 = (
-        "AegisTrust 是一套面向高风险 AI 动作的可信执行基础设施。随着 AI 从“会说”走向“会做”，企业越来越担心的不是回答质量，而是关键动作是否越权、出了问题能否复盘、是否具备独立可验证的证据。AegisTrust 的核心做法是，把 AI 动作前后补上一条可信执行链：上线前先做门禁检查，执行时关键动作必须带收据，执行后输出可复核的证据包。简单说，就是让关键动作先体检、做事要留票、结果还能查账。项目当前已形成持续更新的本地开源体系和可现场回放的关键链路，具备从技术验证走向场景验证的基础。"
-    )
-    version_500 = (
-        f"AegisTrust 是一套 AI 可信执行基础设施，主要解决 AI 进入真实业务流程后“敢不敢放权、出了事怎么证明”的问题。它面向的不是普通问答场景，而是运维、法务、财务、合规风控等高责任流程。当前很多 AI 系统能提高效率，但一旦开始调用工具、修改配置、触发审批或输出可执行结果，组织就会面临新的治理压力：边界是否清楚、动作是否合规、事后是否可复核。AegisTrust 的方案不是再做一个大模型或点状插件，而是在关键动作前后建立一条可信执行链。事前，通过门禁检查把明显有缺口的配置挡在上线前；事中，通过标准化收据让关键动作具备可验证依据；事后，通过证据包和完整性校验让结果能够独立复核。项目当前本地仓库群扫描到 {len(ctx['repos'])} 个仓库，最近 30 天有更新的仓库有 {ctx['active_30d']} 个，核心链路已可现场回放，说明项目已经从概念走向可验证的工程阶段。下一步将重点围绕高责任企业流程做试点、样板和北京落地验证。"
-    )
+    version_150 = "AegisTrust 是一套 AI 可信执行基础设施，面向高风险 AI 动作场景。它解决的不是模型会不会回答问题，而是 AI 开始调工具、改配置、跑流程以后，企业怎么做到敢放权、能控风险、出了事说得清。项目通过门禁检查、动作收据和证据包三层能力，让关键动作可拦截、可留证、可复验。"
+    version_300 = "AegisTrust 是一套面向高风险 AI 动作的可信执行基础设施。随着 AI 从“会说”走向“会做”，企业越来越担心的不是回答质量，而是关键动作是否越权、出了问题能否复盘、是否具备独立可验证的证据。AegisTrust 的核心做法是，把 AI 动作前后补上一条可信执行链：上线前先做门禁检查，执行时关键动作必须带收据，执行后输出可复核的证据包。简单说，就是让关键动作先体检、做事要留票、结果还能查账。项目当前已形成持续更新的本地开源体系和可现场回放的关键链路，具备从技术验证走向场景验证的基础。"
+    version_500 = f"AegisTrust 是一套 AI 可信执行基础设施，主要解决 AI 进入真实业务流程后“敢不敢放权、出了事怎么证明”的问题。它面向的不是普通问答场景，而是运维、法务、财务、合规风控等高责任流程。当前很多 AI 系统能提高效率，但一旦开始调用工具、修改配置、触发审批或输出可执行结果，组织就会面临新的治理压力：边界是否清楚、动作是否合规、事后是否可复核。AegisTrust 的方案不是再做一个大模型或点状插件，而是在关键动作前后建立一条可信执行链。事前，通过门禁检查把明显有缺口的配置挡在上线前；事中，通过标准化收据让关键动作具备可验证依据；事后，通过证据包和完整性校验让结果能够独立复核。项目当前本地仓库群扫描到 {len(ctx['repos'])} 个仓库，最近 30 天有更新的仓库有 {ctx['active_30d']} 个，核心链路已可现场回放，说明项目已经从概念走向可验证的工程阶段。下一步将重点围绕高责任企业流程做试点、样板和北京落地验证。"
     return "\n".join(
         [
             "AegisTrust 报名表短版文案",
@@ -2676,8 +2764,9 @@ def build_judge_qa_top10(ctx: dict[str, Any]) -> str:
 
 
 def build_mainstage_vs_backup(ctx: dict[str, Any]) -> str:
-    return textwrap.dedent(
-        f"""\
+    return (
+        textwrap.dedent(
+            f"""\
         # AegisTrust 主舞台与备份拆分
 
         生成时间：{fmt_dt(ctx["generated_at"])}
@@ -2728,7 +2817,9 @@ def build_mainstage_vs_backup(ctx: dict[str, Any]) -> str:
         - AI 从会说走向会做之后，可信执行会成为新的基础能力。
         - AegisTrust 已经把这件事做成一条能演示、能验证、能继续放大的工程闭环。
         """
-    ).strip() + "\n"
+        ).strip()
+        + "\n"
+    )
 
 
 def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
@@ -2753,14 +2844,18 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
         "white": RGBColor(255, 255, 255),
     }
 
-    def set_text_style(run, size: int, color: RGBColor, bold: bool = False, font: str = "Arial"):
+    def set_text_style(
+        run, size: int, color: RGBColor, bold: bool = False, font: str = "Arial"
+    ):
         run.font.name = font
         run.font.size = Pt(size)
         run.font.bold = bold
         run.font.color.rgb = color
 
     def add_textbox(slide, left, top, width, height, text=""):
-        box = slide.shapes.add_textbox(Inches(left), Inches(top), Inches(width), Inches(height))
+        box = slide.shapes.add_textbox(
+            Inches(left), Inches(top), Inches(width), Inches(height)
+        )
         if text:
             box.text_frame.text = text
         return box
@@ -2769,25 +2864,35 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
         slide = prs.slides.add_slide(prs.slide_layouts[6])
         kind = item.get("kind", "normal")
 
-        background = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, prs.slide_width, prs.slide_height)
+        background = slide.shapes.add_shape(
+            MSO_SHAPE.RECTANGLE, 0, 0, prs.slide_width, prs.slide_height
+        )
         background.fill.solid()
-        background.fill.fore_color.rgb = palette["navy"] if kind in {"cover", "closing"} else palette["bg"]
+        background.fill.fore_color.rgb = (
+            palette["navy"] if kind in {"cover", "closing"} else palette["bg"]
+        )
         background.line.fill.background()
 
         accent = slide.shapes.add_shape(
             MSO_SHAPE.RECTANGLE, Inches(0), Inches(0), Inches(13.333), Inches(0.18)
         )
         accent.fill.solid()
-        accent.fill.fore_color.rgb = palette["cyan"] if kind != "closing" else palette["lime"]
+        accent.fill.fore_color.rgb = (
+            palette["cyan"] if kind != "closing" else palette["lime"]
+        )
         accent.line.fill.background()
 
         if kind == "cover":
-            orb1 = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(8.8), Inches(0.7), Inches(3.2), Inches(3.2))
+            orb1 = slide.shapes.add_shape(
+                MSO_SHAPE.OVAL, Inches(8.8), Inches(0.7), Inches(3.2), Inches(3.2)
+            )
             orb1.fill.solid()
             orb1.fill.fore_color.rgb = palette["cyan"]
             orb1.line.fill.background()
 
-            orb2 = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(10.5), Inches(3.4), Inches(1.8), Inches(1.8))
+            orb2 = slide.shapes.add_shape(
+                MSO_SHAPE.OVAL, Inches(10.5), Inches(3.4), Inches(1.8), Inches(1.8)
+            )
             orb2.fill.solid()
             orb2.fill.fore_color.rgb = palette["lime"]
             orb2.line.fill.background()
@@ -2824,7 +2929,13 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
         r.text = item["title"]
         set_text_style(r, 24, palette["ink"], bold=True)
 
-        page_chip = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(11.6), Inches(0.45), Inches(1.0), Inches(0.42))
+        page_chip = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE,
+            Inches(11.6),
+            Inches(0.45),
+            Inches(1.0),
+            Inches(0.42),
+        )
         page_chip.fill.solid()
         page_chip.fill.fore_color.rgb = palette["sand"]
         page_chip.line.fill.background()
@@ -2834,7 +2945,13 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
         r.text = f"{index:02d}"
         set_text_style(r, 11, palette["navy"], bold=True)
 
-        body_card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.7), Inches(1.45), Inches(8.2), Inches(5.35))
+        body_card = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE,
+            Inches(0.7),
+            Inches(1.45),
+            Inches(8.2),
+            Inches(5.35),
+        )
         body_card.fill.solid()
         body_card.fill.fore_color.rgb = palette["white"]
         body_card.line.fill.background()
@@ -2852,7 +2969,9 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
             set_text_style(r, 24, palette["ink"], bold=True)
             bullet_top = 2.95
 
-        text_box = add_textbox(slide, 1.0, bullet_top, 7.5, 3.6 if headline_text else 4.8, "")
+        text_box = add_textbox(
+            slide, 1.0, bullet_top, 7.5, 3.6 if headline_text else 4.8, ""
+        )
         frame = text_box.text_frame
         frame.word_wrap = True
         first = True
@@ -2865,7 +2984,13 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
             r.text = bullet
             set_text_style(r, 16 if headline_text else 18, palette["ink"])
 
-        side_card = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(9.25), Inches(1.45), Inches(3.35), Inches(5.35))
+        side_card = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE,
+            Inches(9.25),
+            Inches(1.45),
+            Inches(3.35),
+            Inches(5.35),
+        )
         side_card.fill.solid()
         side_card.fill.fore_color.rgb = palette["navy"]
         side_card.line.fill.background()
@@ -2876,7 +3001,12 @@ def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
         r.text = "一句话"
         set_text_style(r, 13, palette["sand"], bold=True)
 
-        side_text = item.get("callout") or item.get("subtitle") or item.get("tagline") or "当前可用"
+        side_text = (
+            item.get("callout")
+            or item.get("subtitle")
+            or item.get("tagline")
+            or "当前可用"
+        )
         side_body = add_textbox(slide, 9.55, 2.45, 2.7, 2.6, "")
         p = side_body.text_frame.paragraphs[0]
         p.word_wrap = True
@@ -3008,9 +3138,17 @@ def write_outputs(ctx: dict[str, Any], skip_pptx: bool = False) -> list[Path]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="生成 AegisTrust 项目材料。")
-    parser.add_argument("--skip-smoke", action="store_true", help="Skip local smoke replays.")
-    parser.add_argument("--skip-pptx", action="store_true", help="Skip PPTX generation.")
-    parser.add_argument("--use-github", action="store_true", help="显式使用 GitHub API；默认只使用本地仓库。")
+    parser.add_argument(
+        "--skip-smoke", action="store_true", help="Skip local smoke replays."
+    )
+    parser.add_argument(
+        "--skip-pptx", action="store_true", help="Skip PPTX generation."
+    )
+    parser.add_argument(
+        "--use-github",
+        action="store_true",
+        help="显式使用 GitHub API；默认只使用本地仓库。",
+    )
     return parser.parse_args()
 
 
@@ -3018,7 +3156,9 @@ def main() -> int:
     args = parse_args()
     try:
         if args.use_github:
-            ctx = collect_context(skip_smoke=args.skip_smoke, source_mode="github_or_cache")
+            ctx = collect_context(
+                skip_smoke=args.skip_smoke, source_mode="github_or_cache"
+            )
         else:
             ctx = collect_context(
                 skip_smoke=args.skip_smoke,
@@ -3028,7 +3168,10 @@ def main() -> int:
         outputs = write_outputs(ctx, skip_pptx=args.skip_pptx)
     except ModuleNotFoundError as exc:
         if exc.name == "pptx":
-            print("python-pptx is required for PPTX generation. Re-run with --skip-pptx or install python-pptx.", file=sys.stderr)
+            print(
+                "python-pptx is required for PPTX generation. Re-run with --skip-pptx or install python-pptx.",
+                file=sys.stderr,
+            )
             return 2
         raise
     except (HTTPError, URLError) as exc:

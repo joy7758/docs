@@ -267,7 +267,9 @@ class DemoPlayer:
             action = self.handle_input()
             if action:
                 return action
-            countdown = "Paused" if self.paused else f"Auto-advance in {remaining:0.1f}s"
+            countdown = (
+                "Paused" if self.paused else f"Auto-advance in {remaining:0.1f}s"
+            )
             self.render(title, step_label, status, body_lines, countdown)
             time.sleep(TICK)
             if not self.paused:
@@ -336,7 +338,9 @@ class DemoPlayer:
             action = self.handle_input()
             if action:
                 return action
-            countdown = "Paused" if self.paused else f"Holding result for {remaining:0.1f}s"
+            countdown = (
+                "Paused" if self.paused else f"Holding result for {remaining:0.1f}s"
+            )
             self.render(title, step_label, status, output_lines, countdown)
             time.sleep(TICK)
             if not self.paused:
@@ -429,7 +433,11 @@ class DemoPlayer:
 
         self.draw_line(y, "=" * max(1, width - 1), curses.A_DIM)
         y += 1
-        self.draw_line(y, f"{step_label} | Mode: {'PAUSED' if self.paused else 'PLAYING'}", curses.A_REVERSE)
+        self.draw_line(
+            y,
+            f"{step_label} | Mode: {'PAUSED' if self.paused else 'PLAYING'}",
+            curses.A_REVERSE,
+        )
         y += 1
         self.draw_line(y, f"Status: {status}", curses.A_BOLD)
         y += 1
@@ -454,7 +462,11 @@ class DemoPlayer:
             y += 1
 
         if len(wrapped_body) > max_body_lines and footer_y - 1 >= y:
-            self.draw_line(footer_y - 1, "  ... output trimmed to fit this terminal size ...", curses.A_DIM)
+            self.draw_line(
+                footer_y - 1,
+                "  ... output trimmed to fit this terminal size ...",
+                curses.A_DIM,
+            )
 
         self.draw_line(footer_y, "=" * max(1, width - 1), curses.A_DIM)
         self.draw_line(height - 1, f" {countdown}", curses.A_BOLD)
