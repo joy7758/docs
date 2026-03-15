@@ -569,6 +569,13 @@ packages:
   path: libs/python-sdk/ads4gpts-langchain
   downloads: 1000
   downloads_updated_at: "2026-01-19T00:06:43.844774+00:00"
+- name: agent-evidence
+  name_title: Agent Evidence
+  repo: joy7758/agent-evidence
+  provider_page: agent_evidence
+  js: n/a
+  downloads: 0
+  downloads_updated_at: "2026-03-16T00:00:00+00:00"
 - name: langchain-contextual
   name_title: Contextual AI
   repo: ContextualAI//langchain-contextual
