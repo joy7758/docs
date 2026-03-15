@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import os
 import subprocess
@@ -10,7 +11,7 @@ import textwrap
 from collections import Counter, defaultdict
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, NotRequired, TypedDict, cast
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -54,7 +55,31 @@ SKIP_DIRS = {
     "build",
 }
 
-PRIMARY_REPOS = {
+
+class SmokeSpec(TypedDict):
+    cmd: list[str]
+    success_markers: list[str]
+    timeout: int
+
+
+class PrimaryRepoMeta(TypedDict):
+    module: str
+    layer: str
+    bp_role: str
+    one_line: str
+    stage: str
+    capabilities: list[str]
+    validation: list[str]
+    smoke: SmokeSpec
+
+
+class SupportingRepoMeta(TypedDict):
+    layer: str
+    role: str
+    smoke: NotRequired[SmokeSpec]
+
+
+PRIMARY_REPOS: dict[str, PrimaryRepoMeta] = {
     "god-spear": {
         "module": "上线前门禁层",
         "layer": "Governance gate",
@@ -152,7 +177,7 @@ PRIMARY_REPOS = {
     },
 }
 
-SUPPORTING_REPOS = {
+SUPPORTING_REPOS: dict[str, SupportingRepoMeta] = {
     "persona-object-protocol": {
         "layer": "Identity foundation",
         "role": "为更完整的大架构提供 persona / identity 层；当前不作为主模块单独对外销售。",
@@ -423,7 +448,7 @@ def count_repo_signals(path: Path) -> dict[str, int | bool]:
     return counts
 
 
-def smoke_check(name: str, config: dict[str, Any]) -> dict[str, Any]:
+def smoke_check(name: str, config: SmokeSpec) -> dict[str, Any]:
     command = config["cmd"]
     path = repo_path(name)
     started = datetime.now(UTC)
@@ -433,7 +458,7 @@ def smoke_check(name: str, config: dict[str, Any]) -> dict[str, Any]:
             cwd=path,
             text=True,
             capture_output=True,
-            timeout=config.get("timeout", 60),
+            timeout=config["timeout"],
             check=False,
         )
     except Exception as exc:  # pragma: no cover - defensive
@@ -450,7 +475,7 @@ def smoke_check(name: str, config: dict[str, Any]) -> dict[str, Any]:
     combined = "\n".join(
         part for part in [result.stdout, result.stderr] if part
     ).strip()
-    markers = config.get("success_markers", [])
+    markers = config["success_markers"]
     ok = result.returncode == 0 and all(marker in combined for marker in markers)
     summary_line = ""
     for line in reversed(
@@ -650,12 +675,12 @@ def collect_context(
 
     smoke_results: dict[str, dict[str, Any]] = {}
     if not skip_smoke:
-        smoke_catalog: dict[str, dict[str, Any]] = {}
+        smoke_catalog: dict[str, SmokeSpec] = {}
         for name, meta in PRIMARY_REPOS.items():
             smoke_catalog[name] = meta["smoke"]
-        demo_smoke = SUPPORTING_REPOS["verifiable-agent-demo"].get("smoke")
-        if demo_smoke and repo_exists("verifiable-agent-demo"):
-            smoke_catalog["verifiable-agent-demo"] = demo_smoke
+        demo_meta = SUPPORTING_REPOS["verifiable-agent-demo"]
+        if "smoke" in demo_meta and repo_exists("verifiable-agent-demo"):
+            smoke_catalog["verifiable-agent-demo"] = demo_meta["smoke"]
         for name, smoke in smoke_catalog.items():
             if repo_exists(name):
                 smoke_results[name] = smoke_check(name, smoke)
@@ -854,12 +879,16 @@ def build_github_progress_report(ctx: dict[str, Any]) -> str:
             f"- `{name}`：{result}，时间 {fmt_dt(smoke['ran_at'])}，命令 `{smoke['command']}`。"
         )
     smoke_block = "\n".join(smoke_lines) if smoke_lines else "- 本地回放已跳过。"
-    source_text = {
+    source_descriptions = {
         "github_api": "直接使用 GitHub API 拉取远程仓库信息。",
         "repo_cache": "GitHub API 被限流，已回退到上次保存的远程仓库快照。",
         "local_scan": "GitHub API 被限流且没有缓存，已回退到本地仓库扫描。",
         "local_fallback": "本次直接使用本地仓库和本地 git 信息生成。",
-    }.get(ctx.get("source_mode"), "优先使用 GitHub API，必要时回退到缓存或本地仓库。")
+    }
+    source_text = "优先使用 GitHub API，必要时回退到缓存或本地仓库。"
+    source_mode = ctx.get("source_mode")
+    if isinstance(source_mode, str):
+        source_text = source_descriptions.get(source_mode, source_text)
     head = "\n".join(
         [
             "# AegisTrust 本地仓库进展报告",
@@ -2822,11 +2851,23 @@ def build_mainstage_vs_backup(ctx: dict[str, Any]) -> str:
 
 
 def generate_pptx(slides: list[dict[str, Any]], output_path: Path) -> None:
-    from pptx import Presentation
-    from pptx.dml.color import RGBColor
-    from pptx.enum.shapes import MSO_SHAPE
-    from pptx.enum.text import PP_ALIGN
-    from pptx.util import Inches, Pt
+    try:
+        presentation_mod = cast("Any", importlib.import_module("pptx"))
+        color_mod = cast("Any", importlib.import_module("pptx.dml.color"))
+        shapes_mod = cast("Any", importlib.import_module("pptx.enum.shapes"))
+        text_mod = cast("Any", importlib.import_module("pptx.enum.text"))
+        util_mod = cast("Any", importlib.import_module("pptx.util"))
+    except ModuleNotFoundError as exc:
+        raise RuntimeError(
+            "python-pptx is required to generate PPTX output. Install it before using --pptx."
+        ) from exc
+
+    Presentation = presentation_mod.Presentation
+    RGBColor = color_mod.RGBColor
+    MSO_SHAPE = shapes_mod.MSO_SHAPE
+    PP_ALIGN = text_mod.PP_ALIGN
+    Inches = util_mod.Inches
+    Pt = util_mod.Pt
 
     prs = Presentation()
     prs.slide_width = Inches(13.333)
