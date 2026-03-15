@@ -1,0 +1,14 @@
+{
+  "evidence_files": [
+    "agent_result.json",
+    "aro_audit_record.json",
+    "mvk_input.json",
+    "public_evidence_summary.json"
+  ],
+  "manufacturer": "Demo factory",
+  "object_id": "DPP-DEMO-0001",
+  "product": "Battery module",
+  "result": "Execution completed and evidence bundle generated.",
+  "run_id": "RUN-DEMO-20260101-0001",
+  "summary_id": "SUMMARY-DEMO-0001"
+}

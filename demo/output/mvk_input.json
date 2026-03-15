@@ -1,0 +1,13 @@
+{
+  "bundle_hash": "625716a0caf8b933b805ddc3c31e2be28670d40cf794ba3d90e7648d6617b192",
+  "bundle_payload": {
+    "audit_record_id": "ARO-DEMO-0001",
+    "object_hash": "72dea23b1f03c57b3b2280dfab635869f2b504b004f370eeebd418de37afd8ee",
+    "object_id": "DPP-DEMO-0001",
+    "run_id": "RUN-DEMO-20260101-0001",
+    "summary_id": "SUMMARY-DEMO-0001"
+  },
+  "expected_result": "REPLAY_PASS",
+  "hash_algorithm": "sha256",
+  "verification_id": "MVK-DEMO-0001"
+}

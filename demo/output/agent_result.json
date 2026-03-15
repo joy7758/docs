@@ -1,0 +1,24 @@
+{
+  "agent": {
+    "name": "fdo-demo-agent",
+    "version": "1.0.0"
+  },
+  "input_hash": "72dea23b1f03c57b3b2280dfab635869f2b504b004f370eeebd418de37afd8ee",
+  "object_id": "DPP-DEMO-0001",
+  "run_id": "RUN-DEMO-20260101-0001",
+  "status": "EXECUTION_OK",
+  "steps": [
+    {
+      "name": "ingest_digital_object",
+      "status": "OK"
+    },
+    {
+      "name": "extract_core_fields",
+      "status": "OK"
+    },
+    {
+      "name": "prepare_evidence_bundle",
+      "status": "OK"
+    }
+  ]
+}

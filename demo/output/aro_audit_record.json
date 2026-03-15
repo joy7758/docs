@@ -1,0 +1,10 @@
+{
+  "agent_name": "fdo-demo-agent",
+  "decision": "EVIDENCE_BUNDLE_CREATED",
+  "event_type": "AGENT_EXECUTION",
+  "object_hash": "72dea23b1f03c57b3b2280dfab635869f2b504b004f370eeebd418de37afd8ee",
+  "object_id": "DPP-DEMO-0001",
+  "record_id": "ARO-DEMO-0001",
+  "run_id": "RUN-DEMO-20260101-0001",
+  "timestamp": "2026-01-01T10:00:05Z"
+}
