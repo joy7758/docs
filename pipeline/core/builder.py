@@ -502,6 +502,7 @@ class DocumentationBuilder:
             unit="file",
             bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
             dynamic_ncols=True,
+            leave=False,
         ) as pbar:
             for file_path in existing_files:
                 result = self._build_file_with_progress(file_path, pbar)
@@ -550,6 +551,7 @@ class DocumentationBuilder:
             unit="file",
             bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
             dynamic_ncols=True,
+            leave=False,
         ) as pbar:
             for file_path in all_files:
                 # Calculate relative path from oss/ directory
@@ -627,6 +629,7 @@ class DocumentationBuilder:
             unit="file",
             bar_format="{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
             dynamic_ncols=True,
+            leave=False,
         ) as pbar:
             for file_path in all_files:
                 # Calculate relative path from source directory
