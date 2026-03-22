@@ -1,27 +1,27 @@
 <!-- language-switch:start -->
-<p>
-  <a href="./README.md">
-    <img src="https://img.shields.io/badge/English-Current-1f883d?style=for-the-badge" alt="English">
-  </a>
-  <a href="./README.zh-CN.md">
-    <img src="https://img.shields.io/badge/Chinese-Switch-0f172a?style=for-the-badge" alt="Chinese">
-  </a>
-</p>
+[English](./README.md) | [中文](./README.zh-CN.md)
 <!-- language-switch:end -->
 
-# Docs Sparse
+# docs
 
-Sparse local checkout of the `joy7758/docs` documentation repository.
+Sparse local workspace for the `joy7758/docs` repository.
 
-This repository keeps the Mintlify source tree under `src/` and the generated API reference under `reference/`.
+This checkout keeps the documentation configuration and the selected editable sources without pulling the full upstream tree into the current workspace.
 
-## Quick Links
+## What is here
 
-- [Docs config](./src/docs.json)
-- [Source docs](./src/)
-- [Generated reference](./reference/)
+- `AGENTS.md` records the documentation editing rules for this workspace.
+- `src/docs.json` contains the Mintlify site configuration.
+- `reference/` is reserved for generated reference artifacts.
 
-## Language
+## What this workspace is for
 
-- Chinese intro: [README.zh-CN.md](./README.zh-CN.md)
-- This landing page stays English-only to avoid mixed-language presentation.
+- review documentation structure
+- edit manually maintained docs surfaces when they are included in the sparse checkout
+- inspect the site configuration before making documentation changes
+
+## What this workspace is not for
+
+- it is not the full upstream documentation repository checkout
+- it is not the generated publish output
+- it is not the place to edit auto-generated reference content directly

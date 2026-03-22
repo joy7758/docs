@@ -1,27 +1,27 @@
 <!-- language-switch:start -->
-<p>
-  <a href="./README.md">
-    <img src="https://img.shields.io/badge/%E8%8B%B1%E6%96%87-%E5%88%87%E6%8D%A2-0f172a?style=for-the-badge" alt="英文">
-  </a>
-  <a href="./README.zh-CN.md">
-    <img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-%E5%BD%93%E5%89%8D-1f883d?style=for-the-badge" alt="中文">
-  </a>
-</p>
+[English](./README.md) | [中文](./README.zh-CN.md)
 <!-- language-switch:end -->
 
-# Docs Sparse
+# docs
 
-`joy7758/docs` 文档仓库的稀疏本地检出。
+`joy7758/docs` 仓库的稀疏本地工作区。
 
-这个仓库主要保留 `src/` 下的 Mintlify 文档源文件，以及 `reference/` 下的生成式 API 参考内容。
+这个检出只保留文档配置和当前选中的可编辑源文件，不会把完整上游目录树全部拉入当前工作区。
 
-## 快速入口
+## 这里有什么
 
-- [文档配置](./src/docs.json)
-- [源文档目录](./src/)
-- [生成参考目录](./reference/)
+- `AGENTS.md` 记录了这个工作区的文档编辑规则。
+- `src/docs.json` 包含 Mintlify 站点配置。
+- `reference/` 预留给生成式参考文档产物。
 
-## 语言说明
+## 这个工作区是用来做什么的
 
-- 默认英文页：[README.md](./README.md)
-- 本页只保留中文介绍，避免中英文混排。
+- 审查文档结构
+- 在稀疏检出已包含的范围内编辑人工维护的文档面
+- 在修改文档前检查站点配置
+
+## 这个工作区不是用来做什么的
+
+- 它不是完整的上游文档仓库检出
+- 它不是生成后的发布产物
+- 它不是直接编辑自动生成参考内容的地方
